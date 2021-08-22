@@ -3,6 +3,7 @@ package playground.service.document;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import playground.dao.DocumentDao;
+import playground.domain.document.Document;
 import playground.service.document.dto.DocumentResponse;
 import playground.service.document.dto.DocumentTitleResponse;
 
@@ -19,7 +20,8 @@ public class DocumentService {
     }
 
     public DocumentResponse findDocument(Long documentId) {
-        return null;
+        Document document = documentDao.findById(documentId);
+        return new DocumentResponse(document);
     }
 
 }

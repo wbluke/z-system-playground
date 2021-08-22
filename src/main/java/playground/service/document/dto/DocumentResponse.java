@@ -1,10 +1,12 @@
 package playground.service.document.dto;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import playground.domain.document.ApprovalState;
 import playground.domain.document.Category;
 import playground.domain.document.Document;
 
+@Getter
 @NoArgsConstructor
 public class DocumentResponse {
 
