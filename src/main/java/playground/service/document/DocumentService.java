@@ -2,10 +2,11 @@ package playground.service.document;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import playground.dao.DocumentDao;
+import playground.dao.document.DocumentDao;
+import playground.dao.document.dto.DocumentTitleResponseDto;
+import playground.domain.document.ApprovalState;
 import playground.domain.document.Document;
-import playground.service.document.dto.DocumentResponse;
-import playground.service.document.dto.DocumentTitleResponse;
+import playground.service.document.dto.DocumentResponseDto;
 
 import java.util.List;
 
@@ -15,13 +16,13 @@ public class DocumentService {
 
     private final DocumentDao documentDao;
 
-    public List<DocumentTitleResponse> findOutboxDocuments() {
-        return null;
+    public List<DocumentTitleResponseDto> findOutboxDocuments(Long userId) {
+        return documentDao.findStateDocumentsByDrafterId(userId, ApprovalState.DRAFTING);
     }
 
-    public DocumentResponse findDocument(Long documentId) {
+    public DocumentResponseDto findDocument(Long documentId) {
         Document document = documentDao.findById(documentId);
-        return new DocumentResponse(document);
+        return new DocumentResponseDto(document);
     }
 
 }

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ApprovalState {
 
-    WAITING("대기"),
+    DRAFTING("기안"),
     APPROVED("승인"),
     CANCELED("거절"),
     ;
