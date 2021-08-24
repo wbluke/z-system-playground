@@ -1,10 +1,10 @@
 package playground.dao.document.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import playground.domain.document.ApprovalState;
 import playground.domain.document.Category;
+import playground.domain.document.Document;
 
 @Getter
 @NoArgsConstructor
@@ -15,12 +15,11 @@ public class DocumentTitleResponseDto {
     private Category category;
     private ApprovalState approvalState;
 
-    @Builder
-    private DocumentTitleResponseDto(Long id, String title, Category category, ApprovalState approvalState) {
-        this.id = id;
-        this.title = title;
-        this.category = category;
-        this.approvalState = approvalState;
+    public DocumentTitleResponseDto(Document document) {
+        this.id = document.getId();
+        this.title = document.getTitle();
+        this.category = document.getCategory();
+        this.approvalState = document.getApprovalState();
     }
 
     public String getApprovalStateText() {

@@ -3,6 +3,7 @@ package playground.service.document;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import playground.dao.document.DocumentApprovalDao;
 import playground.dao.document.DocumentDao;
 import playground.dao.document.dto.DocumentTitleResponseDto;
 import playground.dao.user.UserDao;
@@ -14,6 +15,7 @@ import playground.web.document.dto.DocumentCreateRequestDto;
 import playground.web.document.dto.DocumentOutboxRequestDto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static playground.domain.document.ApprovalState.DRAFTING;
 
@@ -23,10 +25,12 @@ import static playground.domain.document.ApprovalState.DRAFTING;
 public class DocumentService {
 
     private final DocumentDao documentDao;
+    private final DocumentApprovalDao documentApprovalDao;
     private final UserDao userDao;
 
     public List<DocumentTitleResponseDto> findOutboxDocuments(DocumentOutboxRequestDto requestDto) {
-        return documentDao.findStateDocumentsByDrafterId(requestDto.getDrafterId(), DRAFTING);
+        List<Document> outboxDocuments = documentDao.findStateDocumentsByDrafterId(requestDto.getDrafterId(), DRAFTING);
+        return convertTitleDtoFrom(outboxDocuments);
     }
 
     public DocumentResponseDto findDocument(Long documentId) {
@@ -49,9 +53,14 @@ public class DocumentService {
                     .approverId(approverIds.get(approvalOrder))
                     .approvalOrder(approvalOrder)
                     .build();
-            // save
+            documentApprovalDao.save(documentApproval);
         }
+    }
 
+    private List<DocumentTitleResponseDto> convertTitleDtoFrom(List<Document> documents) {
+        return documents.stream()
+                .map(DocumentTitleResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }
