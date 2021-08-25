@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import playground.dao.document.dto.DocumentTitleResponseDto;
 import playground.service.document.DocumentService;
 import playground.service.document.dto.DocumentResponseDto;
+import playground.service.document.dto.DocumentTitleResponseDto;
 import playground.web.document.dto.DocumentCreateRequestDto;
 import playground.web.document.dto.DocumentOutboxRequestDto;
 

@@ -3,6 +3,7 @@ package playground.web.document.dto;
 import lombok.Getter;
 import playground.domain.document.Category;
 import playground.domain.document.Document;
+import playground.domain.user.User;
 
 import java.util.List;
 
@@ -18,12 +19,12 @@ public class DocumentCreateRequestDto {
     private Long drafterId;
     private List<Long> approverIds;
 
-    public Document toEntity() {
+    public Document toEntity(User drafter) {
         return Document.builder()
                 .title(title)
                 .category(category)
                 .contents(contents)
-                .drafterId(drafterId)
+                .drafter(drafter)
                 .approvalState(DRAFTING)
                 .build();
     }

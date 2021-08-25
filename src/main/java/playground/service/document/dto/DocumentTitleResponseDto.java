@@ -1,4 +1,4 @@
-package playground.dao.document.dto;
+package playground.service.document.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

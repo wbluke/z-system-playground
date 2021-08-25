@@ -3,14 +3,14 @@ package playground.service.document;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import playground.dao.document.DocumentApprovalDao;
-import playground.dao.document.DocumentDao;
-import playground.dao.document.dto.DocumentTitleResponseDto;
-import playground.dao.user.UserDao;
 import playground.domain.document.Document;
 import playground.domain.document.DocumentApproval;
+import playground.domain.document.DocumentApprovalRepository;
+import playground.domain.document.DocumentRepository;
 import playground.domain.user.User;
+import playground.domain.user.UserRepository;
 import playground.service.document.dto.DocumentResponseDto;
+import playground.service.document.dto.DocumentTitleResponseDto;
 import playground.web.document.dto.DocumentCreateRequestDto;
 import playground.web.document.dto.DocumentOutboxRequestDto;
 
@@ -24,36 +24,40 @@ import static playground.domain.document.ApprovalState.DRAFTING;
 @Service
 public class DocumentService {
 
-    private final DocumentDao documentDao;
-    private final DocumentApprovalDao documentApprovalDao;
-    private final UserDao userDao;
+    private final DocumentRepository documentRepository;
+    private final UserRepository userRepository;
+    private final DocumentApprovalRepository documentApprovalRepository;
 
     public List<DocumentTitleResponseDto> findOutboxDocuments(DocumentOutboxRequestDto requestDto) {
-        List<Document> outboxDocuments = documentDao.findStateDocumentsByDrafterId(requestDto.getDrafterId(), DRAFTING);
+        User drafter = findUserById(requestDto.getDrafterId());
+        List<Document> outboxDocuments = documentRepository.findByDrafterAndApprovalState(drafter, DRAFTING);
         return convertTitleDtoFrom(outboxDocuments);
     }
 
     public DocumentResponseDto findDocument(Long documentId) {
-        Document document = documentDao.findById(documentId);
-        User drafter = userDao.findById(document.getDrafterId());
+        Document document = findDocumentById(documentId);
+        User drafter = document.getDrafter();
 
         return new DocumentResponseDto(document, drafter);
     }
 
     @Transactional
     public void create(DocumentCreateRequestDto requestDto) {
-        Document document = requestDto.toEntity();
-        Long documentId = documentDao.save(document);
+        User drafter = findUserById(requestDto.getDrafterId());
+        Document document = requestDto.toEntity(drafter);
+        Document savedDocument = documentRepository.save(document);
 
         List<Long> approverIds = requestDto.getApproverIds();
-        for (int approvalOrder = 0; approvalOrder < approverIds.size(); approvalOrder++) {
+        List<User> approvers = userRepository.findAllById(approverIds);
+
+        for (int index = 0; index < approvers.size(); index++) {
             DocumentApproval documentApproval = DocumentApproval.builder()
-                    .documentId(documentId)
+                    .document(savedDocument)
                     .approvalState(DRAFTING)
-                    .approverId(approverIds.get(approvalOrder))
-                    .approvalOrder(approvalOrder)
+                    .approver(approvers.get(index))
+                    .approvalOrder(index)
                     .build();
-            documentApprovalDao.save(documentApproval);
+            documentApprovalRepository.save(documentApproval);
         }
     }
 
@@ -61,6 +65,16 @@ public class DocumentService {
         return documents.stream()
                 .map(DocumentTitleResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    private Document findDocumentById(Long documentId) {
+        return documentRepository.findById(documentId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("존재하지 않는 문서입니다. documentId = %s", documentId)));
+    }
+
+    private User findUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("존재하지 않는 사용자입니다. userId = %s", userId)));
     }
 
 }

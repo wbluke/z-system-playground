@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum Category {
 
     OPERATING_EXPENSES("운영비"),
-    EDUCATION("교육")
-    ;
+    EDUCATION("교육");
 
     private final String text;
 
