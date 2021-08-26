@@ -23,14 +23,14 @@ public class DocumentController {
 
     @GetMapping("/documents/outbox")
     public ResponseEntity<List<DocumentTitleResponseDto>> findOutboxDocuments(DocumentOutboxRequestDto requestDto) {
-        List<DocumentTitleResponseDto> outboxDocumentDtos = documentService.findOutboxDocuments(requestDto);
-        return ResponseEntity.ok(outboxDocumentDtos);
+        List<DocumentTitleResponseDto> outboxDocumentResponses = documentService.findOutboxDocuments(requestDto);
+        return ResponseEntity.ok(outboxDocumentResponses);
     }
 
     @GetMapping("/documents/{documentId}")
     public ResponseEntity<DocumentResponseDto> findDocument(@PathVariable Long documentId) {
-        DocumentResponseDto documentResponseDto = documentService.findDocument(documentId);
-        return ResponseEntity.ok(documentResponseDto);
+        DocumentResponseDto documentResponse = documentService.findDocument(documentId);
+        return ResponseEntity.ok(documentResponse);
     }
 
     @PostMapping("/documents")
