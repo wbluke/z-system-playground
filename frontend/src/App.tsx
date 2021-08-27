@@ -1,10 +1,23 @@
 import React from 'react';
+import Router from "./Router";
+import './import'
+import {createTheme, MuiThemeProvider} from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'ARIAL'
+  }
+});
 
 function App() {
   return (
-    <div className="App">
-      Hello, React!
-    </div>
+    <>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline/>
+        <Router/>
+      </MuiThemeProvider>
+    </>
   );
 }
 
