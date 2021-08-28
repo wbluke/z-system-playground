@@ -6,6 +6,7 @@ import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import ClearAllOutlinedIcon from '@material-ui/icons/ClearAllOutlined';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import AppMenuItem from "./AppMenuItem";
 
 const appMenuItems = [
@@ -14,18 +15,23 @@ const appMenuItems = [
     icon: <InsertDriveFileIcon/>,
     items: [
       {
-        name: '기안 문서함',
-        link: '/outbox',
+        name: '문서 생성',
+        link: '/documents',
         icon: <NoteAddIcon/>
       },
       {
+        name: '기안 문서함',
+        link: '/documents/outbox',
+        icon: <LibraryBooksIcon/>
+      },
+      {
         name: '결재 문서함',
-        link: '/inbox',
+        link: '/documents/inbox',
         icon: <AssignmentTurnedInIcon/>
       },
       {
         name: '완료 문서함',
-        link: '/archive',
+        link: '/documents/archive',
         icon: <ClearAllOutlinedIcon/>
       },
     ],
@@ -36,7 +42,7 @@ const appMenuItems = [
     items: [
       {
         name: '휴가 신청',
-        link: '/day-off',
+        link: '/vacations',
         icon: <FlightTakeoffIcon/>
       },
     ],

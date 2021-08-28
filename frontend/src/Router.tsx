@@ -1,31 +1,26 @@
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import MainMenus from "./components/menus/Menus";
-import Copyright from "./components/copyright/Copyright";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EcoIcon from '@material-ui/icons/Eco';
+import {HashRouter, Route, Switch} from "react-router-dom";
+import {AppBar, Box, Container, Divider, Drawer, IconButton, Toolbar, Typography} from "@material-ui/core";
+import MainMenus from "./components/menus/Menus";
+import Copyright from "./components/copyright/Copyright";
 import {green} from "@material-ui/core/colors";
-import {HashRouter} from "react-router-dom";
+import DocumentPage from "./components/documents";
+import DocumentOutboxPage from "./components/documents/outbox";
+import DocumentInboxPage from "./components/documents/inbox";
+import DocumentArchivePage from "./components/documents/archive";
+import VacationPage from "./components/vacations";
 
 const Router = () => {
 
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(true);
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const userInfo = {
     name: '닉우빈',
@@ -92,24 +87,15 @@ const Router = () => {
           <div className={classes.appBarSpacer}/>
           <Container maxWidth="lg" className={classes.container}>
 
-            <Grid container spacing={3}>
-
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper className={fixedHeightPaper}>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                </Paper>
-              </Grid>
-
-            </Grid>
+            <Switch>
+              {/*<Route path="/" exact component={LoginPage}/>*/}
+              <Route path="/documents" exact component={DocumentPage}/>
+              <Route path="/documents/outbox" exact component={DocumentOutboxPage}/>
+              <Route path="/documents/inbox" exact component={DocumentInboxPage}/>
+              <Route path="/documents/archive" exact component={DocumentArchivePage}/>
+              <Route path="/vacations" exact component={VacationPage}/>
+              <Route component={() => <><h2>잘못된 경로입니다. 뒤로 가기를 눌러주세요.</h2></>}/>
+            </Switch>
 
             <Box pt={4}>
               <Copyright/>
@@ -124,12 +110,12 @@ const Router = () => {
 
 const drawerWidth = 280;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
