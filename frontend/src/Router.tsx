@@ -50,7 +50,7 @@ const Router = () => {
               <MenuIcon/>
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Dashboard
+              인사시스템
             </Typography>
             <span className={classes.userInfo}>
             <EcoIcon className={classes.userIcon}/>
