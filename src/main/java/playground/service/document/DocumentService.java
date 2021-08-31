@@ -51,12 +51,9 @@ public class DocumentService {
         List<User> approvers = userRepository.findAllById(approverIds);
 
         for (int index = 0; index < approvers.size(); index++) {
-            DocumentApproval documentApproval = DocumentApproval.builder()
-                    .document(savedDocument)
-                    .approvalState(DRAFTING)
-                    .approver(approvers.get(index))
-                    .approvalOrder(index)
-                    .build();
+            User approver = approvers.get(index);
+            DocumentApproval documentApproval = createDocumentApproval(savedDocument, approver, index);
+
             documentApprovalRepository.save(documentApproval);
         }
     }
@@ -75,6 +72,16 @@ public class DocumentService {
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("존재하지 않는 사용자입니다. userId = %s", userId)));
+    }
+
+    private DocumentApproval createDocumentApproval(Document savedDocument, User approver, int approvalOrder) {
+        DocumentApproval documentApproval = DocumentApproval.builder()
+                .approvalState(DRAFTING)
+                .approver(approver)
+                .approvalOrder(approvalOrder)
+                .build();
+        documentApproval.updateDocument(savedDocument);
+        return documentApproval;
     }
 
 }

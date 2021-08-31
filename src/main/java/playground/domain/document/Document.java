@@ -59,4 +59,8 @@ public class Document {
         return drafter.getId();
     }
 
+    public void addDocumentApproval(DocumentApproval documentApproval) {
+        this.documentApprovals.add(documentApproval);
+    }
+
 }

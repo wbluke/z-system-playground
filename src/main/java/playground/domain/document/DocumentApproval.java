@@ -40,12 +40,16 @@ public class DocumentApproval {
     private String approvalComment;
 
     @Builder
-    private DocumentApproval(Document document, User approver, ApprovalState approvalState, Integer approvalOrder, String approvalComment) {
-        this.document = document;
+    private DocumentApproval(User approver, ApprovalState approvalState, Integer approvalOrder, String approvalComment) {
         this.approver = approver;
         this.approvalState = approvalState;
         this.approvalOrder = approvalOrder;
         this.approvalComment = approvalComment;
+    }
+
+    public void updateDocument(Document document) {
+        this.document = document;
+        document.addDocumentApproval(this);
     }
 
 }
