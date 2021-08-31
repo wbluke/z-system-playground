@@ -4,12 +4,16 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import playground.domain.team.Team;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,12 +32,20 @@ public class User {
 
     private String name;
 
+    @ManyToOne
+    private Team team;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private JobPosition jobPosition;
+
     @Builder
-    private User(Long id, String email, String password, String name) {
-        this.id = id;
+    private User(String email, String password, String name, Team team, JobPosition jobPosition) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.team = team;
+        this.jobPosition = jobPosition;
     }
 
 }
