@@ -23,8 +23,8 @@ const Router = () => {
   const [open, setOpen] = React.useState(true);
 
   const userInfo = {
-    name: '닉우빈',
-    email: 'wbluke@gmail.com'
+    name: '사용자',
+    email: 'user@gmail.com'
   }
 
   const handleDrawerOpen = () => {

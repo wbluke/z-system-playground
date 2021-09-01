@@ -15,7 +15,7 @@ const appMenuItems = [
     icon: <InsertDriveFileIcon/>,
     items: [
       {
-        name: '문서 생성',
+        name: '신규 문서 생성',
         link: '/documents',
         icon: <NoteAddIcon/>
       },
