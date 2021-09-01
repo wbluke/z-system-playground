@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  Divider,
   FormControl,
   Grid,
   InputLabel,
@@ -67,20 +68,12 @@ const DocumentPage = (
           </Card>
         </Grid>
 
-        <Grid item xs={12}>
-          <div className={classes.approverSearchArea}>
-            <Button
-              className={classes.approverSearchButton}
-              variant="contained"
-              onClick={onConfirm}
-            >
-              결재자 지정
-            </Button>
-          </div>
-        </Grid>
+        <Divider/>
 
-        <Grid container xs={12} justifyContent="flex-end">
-          <Card elevation={0} className={classes.approverCardRoot}>
+        <Grid container justifyContent="flex-end">
+          <Card elevation={0} className={classes.approverCardRoot} onClick={() => {
+            console.log('??')
+          }}>
             <CardContent className={classes.approverCardContents}>
               <TableContainer>
                 <Table className={classes.approverTable}>
@@ -95,6 +88,7 @@ const DocumentPage = (
                     </TableRow>
                     <TableRow>
                       <TableCell className={classes.approverTableUserNameCell}>
+                        결재자 지정
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -190,6 +184,10 @@ const useStyles = makeStyles(theme => ({
   approverCardRoot: {
     backgroundColor: 'rgba(242,239,189,0.4)',
     margin: '0 5px 5px 0',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(242,239,189,0.6)',
+    }
   },
   approverCardContents: {
     padding: '8px',
@@ -201,21 +199,20 @@ const useStyles = makeStyles(theme => ({
   approverTableIndexCell: {
     minWidth: 100,
     textAlign: 'center',
-    border: '1px solid rgba(0,0,0,0.3)',
+    border: '1px solid rgba(0, 0, 0, 0.3)',
     padding: '5px',
   },
   approverTableTeamCell: {
     minWidth: 100,
     textAlign: 'center',
-    border: '1px solid rgba(0,0,0,0.3)',
+    border: '1px solid rgba(0, 0, 0, 0.3)',
     padding: '10px',
   },
   approverTableUserNameCell: {
     minWidth: 100,
     height: 80,
     textAlign: 'center',
-    border: '1px solid rgba(0,0,0,0.3)',
-    // border: '1px solid rgba(68, 157, 222, 0.3)',
+    border: '1px solid rgba(0, 0, 0, 0.3)',
     padding: '10px',
   },
   approverSearchArea: {
