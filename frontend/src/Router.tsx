@@ -20,7 +20,7 @@ const Router = () => {
 
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const userInfo = {
     name: '사용자',
@@ -50,7 +50,7 @@ const Router = () => {
               <MenuIcon/>
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              인사시스템
+              WBD 인사시스템
             </Typography>
             <span className={classes.userInfo}>
             <EcoIcon className={classes.userIcon}/>

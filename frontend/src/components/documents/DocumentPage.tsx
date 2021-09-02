@@ -18,6 +18,7 @@ import {
   TableRow,
   TextField
 } from "@material-ui/core";
+import commonStyles from '../../common/styles/CommonStyles'
 
 export interface IDocumentCategorySelectItem {
   value: string
@@ -44,6 +45,7 @@ const DocumentPage = (
     onConfirm
   }: IDocumentPage) => {
 
+  const commonStyleClasses = commonStyles()
   const classes = useStyles();
 
   return (
@@ -51,12 +53,12 @@ const DocumentPage = (
       <Grid container spacing={1}>
 
         <Grid item xs={12}>
-          <Card elevation={0} className={classes.titleCard}>
+          <Card elevation={0} className={commonStyleClasses.titleCard}>
             <Box p={2}>
-              <div className={classes.title}>
+              <div className={commonStyleClasses.title}>
                 신규 문서 생성
               </div>
-              <div className={classes.titleDescription}>
+              <div className={commonStyleClasses.titleDescription}>
                 <ul>
                   <li>새로운 결재 문서를 기안할 수 있습니다.</li>
                   <li>문서는 제목과 분류, 내용을 필수로 입력해야 합니다.</li>
@@ -172,15 +174,6 @@ const DocumentPage = (
 }
 
 const useStyles = makeStyles(theme => ({
-  titleCard: {
-    padding: '0 0 0 10px',
-    backgroundColor: '#fafafa',
-  },
-  title: {
-    fontFamily: 'BM_HANNA_11yrs_old',
-    fontSize: '40px',
-  },
-  titleDescription: {},
   approverCardRoot: {
     backgroundColor: 'rgba(242,239,189,0.4)',
     margin: '0 5px 5px 0',
