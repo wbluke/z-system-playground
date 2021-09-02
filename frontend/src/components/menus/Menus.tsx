@@ -16,7 +16,7 @@ const appMenuItems = [
     items: [
       {
         name: '신규 문서 생성',
-        link: '/documents',
+        link: '/documents/create',
         icon: <NoteAddIcon/>
       },
       {
@@ -42,7 +42,7 @@ const appMenuItems = [
     items: [
       {
         name: '휴가 신청',
-        link: '/vacations',
+        link: '/vacations/create',
         icon: <FlightTakeoffIcon/>
       },
     ],

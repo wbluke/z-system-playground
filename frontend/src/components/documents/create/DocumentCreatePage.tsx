@@ -18,7 +18,7 @@ import {
   TableRow,
   TextField
 } from "@material-ui/core";
-import commonStyles from '../../common/styles/CommonStyles'
+import commonStyles from '../../../common/styles/CommonStyles'
 
 export interface IDocumentCategorySelectItem {
   value: string
@@ -38,7 +38,7 @@ interface IDocumentPage {
   onConfirm: () => void
 }
 
-const DocumentPage = (
+const DocumentCreatePage = (
   {
     params, setParams,
     categorySelectItems,
@@ -250,4 +250,4 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default DocumentPage;
+export default DocumentCreatePage;

@@ -10,11 +10,11 @@ import {AppBar, Box, Container, Divider, Drawer, IconButton, Toolbar, Typography
 import MainMenus from "./components/menus/Menus";
 import Copyright from "./components/copyright/Copyright";
 import {green} from "@material-ui/core/colors";
-import DocumentPage from "./components/documents";
+import DocumentCreatePage from "./components/documents/create";
 import DocumentOutboxPage from "./components/documents/outbox";
 import DocumentInboxPage from "./components/documents/inbox";
 import DocumentArchivePage from "./components/documents/archive";
-import VacationPage from "./components/vacations";
+import VacationCreatePage from "./components/vacations/create";
 
 const Router = () => {
 
@@ -89,11 +89,11 @@ const Router = () => {
 
             <Switch>
               {/*<Route path="/" exact component={LoginPage}/>*/}
-              <Route path="/documents" exact component={DocumentPage}/>
+              <Route path="/documents/create" exact component={DocumentCreatePage}/>
               <Route path="/documents/outbox" exact component={DocumentOutboxPage}/>
               <Route path="/documents/inbox" exact component={DocumentInboxPage}/>
               <Route path="/documents/archive" exact component={DocumentArchivePage}/>
-              <Route path="/vacations" exact component={VacationPage}/>
+              <Route path="/vacations/create" exact component={VacationCreatePage}/>
               <Route component={() => <><h2>잘못된 경로입니다. 뒤로 가기를 눌러주세요.</h2></>}/>
             </Switch>
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import DocumentPage, {IDocumentCategorySelectItem, IDocumentPageParams} from "./DocumentPage";
+import DocumentCreatePage, {IDocumentCategorySelectItem, IDocumentPageParams} from "./DocumentCreatePage";
 
-const DocumentPageContainer = () => {
+const DocumentCreatePageContainer = () => {
 
   const [params, setParams] = useState<IDocumentPageParams>({
     category: '',
@@ -41,10 +41,10 @@ const DocumentPageContainer = () => {
   }
 
   return (
-    <DocumentPage
+    <DocumentCreatePage
       {...props}
     />
   );
 }
 
-export default DocumentPageContainer;
+export default DocumentCreatePageContainer;
