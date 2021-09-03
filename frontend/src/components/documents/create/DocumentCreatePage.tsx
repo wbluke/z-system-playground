@@ -19,6 +19,7 @@ import {
   TextField
 } from "@material-ui/core";
 import commonStyles from '../../../common/styles/CommonStyles'
+import ApproverSelectModal from "./modal/ApproverSelectModal";
 
 export interface IDocumentCategorySelectItem {
   value: string
@@ -169,6 +170,11 @@ const DocumentCreatePage = (
         </Grid>
 
       </Grid>
+
+      <ApproverSelectModal
+        value={""}
+        setValue={() => {}}
+      />
     </>
   );
 }
