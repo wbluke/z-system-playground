@@ -37,13 +37,16 @@ interface IDocumentPage {
   setParams: (params: IDocumentPageParams) => void
   categorySelectItems: IDocumentCategorySelectItem[]
   onConfirm: () => void
+  approverSelectModalOpen: boolean
+  setApproverSelectModalOpen: (open: boolean) => void
 }
 
 const DocumentCreatePage = (
   {
     params, setParams,
     categorySelectItems,
-    onConfirm
+    onConfirm,
+    approverSelectModalOpen, setApproverSelectModalOpen
   }: IDocumentPage) => {
 
   const commonStyleClasses = commonStyles()
@@ -75,7 +78,7 @@ const DocumentCreatePage = (
 
         <Grid container justifyContent="flex-end">
           <Card elevation={0} className={classes.approverCardRoot} onClick={() => {
-            console.log('??')
+            setApproverSelectModalOpen(true)
           }}>
             <CardContent className={classes.approverCardContents}>
               <TableContainer>
@@ -172,7 +175,8 @@ const DocumentCreatePage = (
       </Grid>
 
       <ApproverSelectModal
-        value={""}
+        open={approverSelectModalOpen}
+        setOpen={setApproverSelectModalOpen}
         setValue={() => {}}
       />
     </>

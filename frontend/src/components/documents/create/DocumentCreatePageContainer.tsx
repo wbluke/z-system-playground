@@ -9,6 +9,7 @@ const DocumentCreatePageContainer = () => {
     contents: '',
   })
   const [categorySelectItems, setCategorySelectItems] = useState<IDocumentCategorySelectItem[]>([])
+  const [approverSelectModalOpen, setApproverSelectModalOpen] = React.useState(false);
 
   const fetchCategorySelectItems = () => {
     const categoryItems = [
@@ -37,7 +38,9 @@ const DocumentCreatePageContainer = () => {
     params,
     setParams,
     categorySelectItems,
-    onConfirm
+    onConfirm,
+    approverSelectModalOpen,
+    setApproverSelectModalOpen,
   }
 
   return (
