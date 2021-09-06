@@ -15,36 +15,30 @@ import {
   Paper
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
+import {IApprover} from "../DocumentCreatePage";
 
 interface IApproverTeam {
   id: number
   name: string
 }
 
-interface IApprover {
-  id: number
-  jobPosition: string
-  jobPositionText: string
-  teamName: string
-  name: string
-}
-
 interface IApproverSelectModal {
-  setValue: (value: string) => void
+  approvers: IApprover[],
+  setApprovers: (approvers: IApprover[]) => void
   open: boolean
   setOpen: (open: boolean) => void
 }
 
 const ApproverSelectModal = (
   {
-    setValue,
+    approvers, setApprovers,
     open, setOpen
   }: IApproverSelectModal) => {
 
   const classes = useStyles();
   const [teams, setTeams] = useState<IApproverTeam[]>([]);
   const [approvalCandidates, setApprovalCandidates] = useState<IApprover[]>([]);
-  const [approvers, setApprovers] = useState<IApprover[]>([]);
+  const [selectedApprovers, setSelectedApprovers] = useState<IApprover[]>(approvers);
   const [selectedTeamId, setSelectedTeamId] = useState<number>(0);
 
   const fetchTeams = () => {
@@ -104,15 +98,15 @@ const ApproverSelectModal = (
   }
 
   const addApprover = (approver: IApprover) => {
-    if (approvers.includes(approver)) {
+    if (selectedApprovers.includes(approver)) {
       return;
     }
-    setApprovers([...approvers, approver])
+    setSelectedApprovers([...selectedApprovers, approver])
   }
 
   const removeApprover = (approverId: number) => {
-    setApprovers(
-      approvers.filter(approver => approver.id !== approverId)
+    setSelectedApprovers(
+      selectedApprovers.filter(approver => approver.id !== approverId)
     )
   }
 
@@ -124,7 +118,7 @@ const ApproverSelectModal = (
   const clear = () => {
     setTeams([]);
     setApprovalCandidates([]);
-    setApprovers([]);
+    setSelectedApprovers([]);
     setSelectedTeamId(0);
   }
 
@@ -133,6 +127,10 @@ const ApproverSelectModal = (
       fetchTeams();
     }
   }, [open])
+
+  useEffect(() => {
+    setSelectedApprovers(approvers);
+  }, [approvers])
 
   return (
     <>
@@ -221,7 +219,7 @@ const ApproverSelectModal = (
                 <Paper className={classes.approversPaper}>
                   <List dense>
                     {
-                      approvers.map((item, index) => {
+                      selectedApprovers.map((item, index) => {
                         return (
                           <ListItem button key={index}>
                             <ListItemText primary={index + 1}/>
@@ -253,6 +251,8 @@ const ApproverSelectModal = (
                 variant="contained"
                 color="primary"
                 onClick={() => {
+                  setApprovers(selectedApprovers);
+                  handleClose();
                 }}
               >
                 완료

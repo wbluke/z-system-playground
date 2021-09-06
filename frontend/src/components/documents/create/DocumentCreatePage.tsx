@@ -32,9 +32,19 @@ export interface IDocumentPageParams {
   contents: string
 }
 
+export interface IApprover {
+  id: number
+  jobPosition: string
+  jobPositionText: string
+  teamName: string
+  name: string
+}
+
 interface IDocumentPage {
   params: IDocumentPageParams
   setParams: (params: IDocumentPageParams) => void
+  approvers: IApprover[],
+  setApprovers: (approvers: IApprover[]) => void
   categorySelectItems: IDocumentCategorySelectItem[]
   onConfirm: () => void
   approverSelectModalOpen: boolean
@@ -44,6 +54,7 @@ interface IDocumentPage {
 const DocumentCreatePage = (
   {
     params, setParams,
+    approvers, setApprovers,
     categorySelectItems,
     onConfirm,
     approverSelectModalOpen, setApproverSelectModalOpen
@@ -85,17 +96,57 @@ const DocumentCreatePage = (
                 <Table className={classes.approverTable}>
                   <TableBody>
                     <TableRow>
-                      <TableCell className={classes.approverTableIndexCell}>
-                      </TableCell>
+                      {
+                        approvers.length
+                          ? (
+                            approvers.map((approver, index) => {
+                              return (
+                                <TableCell className={classes.approverTableIndexCell} key={index}>
+                                  {index + 1}
+                                </TableCell>
+                              )
+                            })
+                          )
+                          : (
+                            <TableCell className={classes.approverTableDefaultIndexCell}/>
+                          )
+                      }
                     </TableRow>
                     <TableRow>
-                      <TableCell className={classes.approverTableTeamCell}>
-                      </TableCell>
+                      {
+                        approvers.length
+                          ? (
+                            approvers.map((approver, index) => {
+                              return (
+                                <TableCell className={classes.approverTableTeamCell} key={index}>
+                                  {approver.teamName}
+                                </TableCell>
+                              )
+                            })
+                          )
+                          : (
+                            <TableCell className={classes.approverTableDefaultTeamCell}/>
+                          )
+                      }
                     </TableRow>
                     <TableRow>
-                      <TableCell className={classes.approverTableUserNameCell}>
-                        결재자 지정
-                      </TableCell>
+                      {
+                        approvers.length
+                          ? (
+                            approvers.map((approver, index) => {
+                              return (
+                                <TableCell className={classes.approverTableUserNameCell} key={index}>
+                                  {approver.name}
+                                </TableCell>
+                              )
+                            })
+                          )
+                          : (
+                            <TableCell className={classes.approverTableUserNameCell}>
+                              결재자 지정
+                            </TableCell>
+                          )
+                      }
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -175,9 +226,10 @@ const DocumentCreatePage = (
       </Grid>
 
       <ApproverSelectModal
+        approvers={approvers}
+        setApprovers={setApprovers}
         open={approverSelectModalOpen}
         setOpen={setApproverSelectModalOpen}
-        setValue={() => {}}
       />
     </>
   );
@@ -199,17 +251,29 @@ const useStyles = makeStyles(theme => ({
     }
   },
   approverTable: {},
-  approverTableIndexCell: {
+  approverTableDefaultIndexCell: {
     minWidth: 100,
     textAlign: 'center',
     border: '1px solid rgba(0, 0, 0, 0.3)',
     padding: '5px',
   },
-  approverTableTeamCell: {
+  approverTableIndexCell: {
+    minWidth: 100,
+    textAlign: 'center',
+    border: '1px solid rgba(0, 0, 0, 0.3)',
+    padding: '0px',
+  },
+  approverTableDefaultTeamCell: {
     minWidth: 100,
     textAlign: 'center',
     border: '1px solid rgba(0, 0, 0, 0.3)',
     padding: '10px',
+  },
+  approverTableTeamCell: {
+    minWidth: 100,
+    textAlign: 'center',
+    border: '1px solid rgba(0, 0, 0, 0.3)',
+    padding: '3px',
   },
   approverTableUserNameCell: {
     minWidth: 100,

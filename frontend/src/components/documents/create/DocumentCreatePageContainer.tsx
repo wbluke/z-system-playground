@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import DocumentCreatePage, {IDocumentCategorySelectItem, IDocumentPageParams} from "./DocumentCreatePage";
+import DocumentCreatePage, {IApprover, IDocumentCategorySelectItem, IDocumentPageParams} from "./DocumentCreatePage";
 
 const DocumentCreatePageContainer = () => {
 
@@ -9,7 +9,8 @@ const DocumentCreatePageContainer = () => {
     contents: '',
   })
   const [categorySelectItems, setCategorySelectItems] = useState<IDocumentCategorySelectItem[]>([])
-  const [approverSelectModalOpen, setApproverSelectModalOpen] = React.useState(false);
+  const [approverSelectModalOpen, setApproverSelectModalOpen] = useState(false);
+  const [approvers, setApprovers] = useState<IApprover[]>([]);
 
   const fetchCategorySelectItems = () => {
     const categoryItems = [
@@ -37,6 +38,8 @@ const DocumentCreatePageContainer = () => {
   const props = {
     params,
     setParams,
+    approvers,
+    setApprovers,
     categorySelectItems,
     onConfirm,
     approverSelectModalOpen,
