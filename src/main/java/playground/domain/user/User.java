@@ -48,4 +48,8 @@ public class User {
         this.jobPosition = jobPosition;
     }
 
+    public String getTeamName() {
+        return this.team.getName();
+    }
+
 }
