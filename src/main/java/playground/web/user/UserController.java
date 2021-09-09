@@ -15,7 +15,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping("/api/users")
     public List<UserResponse> findUsersByTeamId(UsersByTeamIdRequestDto requestDto) {
         return userService.findUsersByTeam(requestDto.getTeamId());
     }

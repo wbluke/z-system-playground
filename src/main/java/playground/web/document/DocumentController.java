@@ -25,25 +25,25 @@ public class DocumentController {
 
     private final DocumentService documentService;
 
-    @GetMapping("/documents/outbox")
+    @GetMapping("/api/documents/outbox")
     public ResponseEntity<List<DocumentTitleResponseDto>> findOutboxDocuments(DocumentOutboxRequestDto requestDto) {
         List<DocumentTitleResponseDto> outboxDocumentResponses = documentService.findOutboxDocuments(requestDto);
         return ResponseEntity.ok(outboxDocumentResponses);
     }
 
-    @GetMapping("/documents/{documentId}")
+    @GetMapping("/api/documents/{documentId}")
     public ResponseEntity<DocumentResponseDto> findDocument(@PathVariable Long documentId) {
         DocumentResponseDto documentResponse = documentService.findDocument(documentId);
         return ResponseEntity.ok(documentResponse);
     }
 
-    @PostMapping("/documents")
+    @PostMapping("/api/documents")
     public ResponseEntity<Object> createDocument(@RequestBody DocumentCreateRequestDto requestDto) {
         documentService.create(requestDto);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/documents/category")
+    @GetMapping("/api/documents/category")
     public ResponseEntity<List<EnumResponse<Category>>> getCategories() {
         List<EnumResponse<Category>> responses = Arrays.stream(Category.values())
                 .map(EnumResponse::new)

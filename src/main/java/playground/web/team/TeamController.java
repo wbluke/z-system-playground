@@ -15,7 +15,7 @@ public class TeamController {
 
     private final TeamService teamService;
 
-    @GetMapping("/teams")
+    @GetMapping("/api/teams")
     public ResponseEntity<List<TeamResponseDto>> findAllTeams() {
         List<TeamResponseDto> teamResponses = teamService.findAllTeams();
         return ResponseEntity.ok(teamResponses);

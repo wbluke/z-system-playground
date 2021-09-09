@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import DocumentCreatePage, {IApprover, IDocumentCategorySelectItem, IDocumentPageParams} from "./DocumentCreatePage";
+import {request} from "../../../utils/requestUtils";
 
 const DocumentCreatePageContainer = () => {
 
@@ -12,17 +13,8 @@ const DocumentCreatePageContainer = () => {
   const [approverSelectModalOpen, setApproverSelectModalOpen] = useState(false);
   const [approvers, setApprovers] = useState<IApprover[]>([]);
 
-  const fetchCategorySelectItems = () => {
-    const categoryItems = [
-      {
-        value: 'OPERATING_EXPENSES',
-        text: '운영비'
-      },
-      {
-        value: 'EDUCATION',
-        text: '교육'
-      }
-    ]
+  const fetchCategorySelectItems = async () => {
+    const {data: categoryItems} = await request.get('/api/documents/category')
 
     setCategorySelectItems(categoryItems)
   }

@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {IApprover} from "../DocumentCreatePage";
+import {request} from "../../../../utils/requestUtils";
 
 interface IApproverTeam {
   id: number
@@ -41,56 +42,16 @@ const ApproverSelectModal = (
   const [selectedApprovers, setSelectedApprovers] = useState<IApprover[]>(approvers);
   const [selectedTeamId, setSelectedTeamId] = useState<number>(0);
 
-  const fetchTeams = () => {
-    setTeams([
-      {
-        id: 1,
-        name: '정산시스템팀',
-      },
-      {
-        id: 2,
-        name: '서비스개발팀'
-      },
-    ])
+  const fetchTeams = async () => {
+    const {data: teams} = await request.get('/api/teams')
+
+    setTeams(teams)
   }
 
-  const fetchApprovalCandidatesByTeam = (teamId: number) => {
-    if (teamId === 1) {
-      setApprovalCandidates([
-        {
-          id: 1,
-          jobPosition: 'TEAM_LEADER',
-          jobPositionText: '팀장',
-          teamName: '정산시스템팀',
-          name: '박우빈'
-        },
-        {
-          id: 2,
-          jobPosition: 'TEAM_MEMBER',
-          jobPositionText: '팀원',
-          teamName: '정산시스템팀',
-          name: '닉우빈'
-        },
-      ])
-      return
-    }
+  const fetchApprovalCandidatesByTeam = async (teamId: number) => {
+    const {data: approvalCandidates} = await request.get('/api/users', {teamId})
 
-    setApprovalCandidates([
-      {
-        id: 3,
-        jobPosition: 'TEAM_LEADER',
-        jobPositionText: '팀장',
-        teamName: '서비스개발팀',
-        name: '박우빈2'
-      },
-      {
-        id: 4,
-        jobPosition: 'PART_MANAGER',
-        jobPositionText: '파트장',
-        teamName: '서비스개발팀',
-        name: '닉우빈2'
-      },
-    ])
+    setApprovalCandidates(approvalCandidates)
   }
 
   const updateCandidatesTeam = (teamId: number) => {
