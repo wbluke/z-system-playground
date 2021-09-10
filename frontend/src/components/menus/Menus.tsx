@@ -20,7 +20,7 @@ const appMenuItems = [
         icon: <NoteAddIcon/>
       },
       {
-        name: '기안 문서함',
+        name: '진행 문서함',
         link: '/documents/outbox',
         icon: <LibraryBooksIcon/>
       },

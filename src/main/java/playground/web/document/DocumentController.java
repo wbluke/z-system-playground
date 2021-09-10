@@ -12,6 +12,7 @@ import playground.service.document.DocumentService;
 import playground.service.document.dto.DocumentResponseDto;
 import playground.service.document.dto.DocumentTitleResponseDto;
 import playground.web.document.dto.DocumentCreateRequestDto;
+import playground.web.document.dto.DocumentInboxRequestDto;
 import playground.web.document.dto.DocumentOutboxRequestDto;
 import playground.web.dto.EnumResponse;
 
@@ -29,6 +30,12 @@ public class DocumentController {
     public ResponseEntity<List<DocumentTitleResponseDto>> findOutboxDocuments(DocumentOutboxRequestDto requestDto) {
         List<DocumentTitleResponseDto> outboxDocumentResponses = documentService.findOutboxDocuments(requestDto);
         return ResponseEntity.ok(outboxDocumentResponses);
+    }
+
+    @GetMapping("/api/documents/inbox")
+    public ResponseEntity<List<DocumentTitleResponseDto>> findInboxDocuments(DocumentInboxRequestDto requestDto) {
+        List<DocumentTitleResponseDto> inboxDocumentResponses = documentService.findInboxDocuments(requestDto);
+        return ResponseEntity.ok(inboxDocumentResponses);
     }
 
     @GetMapping("/api/documents/{documentId}")

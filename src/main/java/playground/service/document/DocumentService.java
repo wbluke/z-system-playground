@@ -12,6 +12,7 @@ import playground.domain.user.UserRepository;
 import playground.service.document.dto.DocumentResponseDto;
 import playground.service.document.dto.DocumentTitleResponseDto;
 import playground.web.document.dto.DocumentCreateRequestDto;
+import playground.web.document.dto.DocumentInboxRequestDto;
 import playground.web.document.dto.DocumentOutboxRequestDto;
 
 import java.util.List;
@@ -32,6 +33,17 @@ public class DocumentService {
         User drafter = findUserById(requestDto.getDrafterId());
         List<Document> outboxDocuments = documentRepository.findByDrafterAndApprovalState(drafter, DRAFTING);
         return convertTitleDtoFrom(outboxDocuments);
+    }
+
+    public List<DocumentTitleResponseDto> findInboxDocuments(DocumentInboxRequestDto requestDto) {
+        User approver = findUserById(requestDto.getApproverId());
+        List<DocumentApproval> inboxDocumentApprovals = documentApprovalRepository.findByApproverAndApprovalState(approver, DRAFTING);
+
+        List<Document> inboxDocuments = inboxDocumentApprovals.stream()
+                .map(DocumentApproval::getDocument)
+                .collect(Collectors.toList());
+
+        return convertTitleDtoFrom(inboxDocuments);
     }
 
     public DocumentResponseDto findDocument(Long documentId) {
