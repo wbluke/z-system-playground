@@ -10,6 +10,18 @@ const commonStyles = makeStyles({
     fontSize: '40px',
   },
   titleDescription: {},
+  resultTable: {
+    minWidth: 650,
+  },
+  resultTableHeadCell: {
+    textAlign: 'center',
+    borderRight: '1px solid rgba(224, 224, 224, 0.7)',
+    backgroundColor: 'rgba(235, 235, 235, 0.5)',
+  },
+  resultTableBodyCell: {
+    textAlign: 'center',
+    borderRight: '1px solid rgba(224, 224, 224, 0.5)',
+  },
 });
 
 export default commonStyles;

@@ -22,6 +22,10 @@ public class DocumentTitleResponseDto {
         this.approvalState = document.getApprovalState();
     }
 
+    public String getCategoryText() {
+        return category.getText();
+    }
+
     public String getApprovalStateText() {
         return approvalState.getText();
     }
