@@ -73,14 +73,12 @@ const DocumentCreatePage = (
               <div className={commonStyleClasses.title}>
                 신규 문서 생성
               </div>
-              <div className={commonStyleClasses.titleDescription}>
-                <ul>
-                  <li>새로운 결재 문서를 기안할 수 있습니다.</li>
-                  <li>문서는 제목과 분류, 내용을 필수로 입력해야 합니다.</li>
-                  <li>결재선은 한 명 이상 지정해야 합니다.</li>
-                  <li>결재선이 본인 1명일 경우, 자동 상신됩니다.</li>
-                </ul>
-              </div>
+              <ul>
+                <li>새로운 결재 문서를 기안할 수 있습니다.</li>
+                <li>문서는 제목과 분류, 내용을 필수로 입력해야 합니다.</li>
+                <li>결재선은 한 명 이상 지정해야 합니다.</li>
+                <li>결재선이 본인 1명일 경우, 자동 상신됩니다.</li>
+              </ul>
             </Box>
           </Card>
         </Grid>

@@ -9,7 +9,6 @@ const commonStyles = makeStyles({
     fontFamily: 'BM_HANNA_11yrs_old',
     fontSize: '40px',
   },
-  titleDescription: {},
   resultTable: {
     minWidth: 650,
   },

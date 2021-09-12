@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  Button,
   Card,
   Grid,
   Paper,
@@ -12,6 +13,7 @@ import {
   TableRow
 } from "@material-ui/core";
 import commonStyles from "../../../common/styles/CommonStyles";
+import DocumentModal, {IDocumentModalOpen} from "../DocumentModal";
 
 export interface IOutboxDocument {
   id: number
@@ -22,11 +24,14 @@ export interface IOutboxDocument {
 
 interface IDocumentOutboxPage {
   outboxDocuments: IOutboxDocument[]
+  documentModalOpen: IDocumentModalOpen
+  setDocumentModalOpen: (modalOpen: IDocumentModalOpen) => void
 }
 
 const DocumentOutboxPage = (
   {
-    outboxDocuments
+    outboxDocuments,
+    documentModalOpen, setDocumentModalOpen
   }: IDocumentOutboxPage) => {
 
   const commonStyleClasses = commonStyles();
@@ -43,12 +48,10 @@ const DocumentOutboxPage = (
               <div className={commonStyleClasses.title}>
                 진행 문서함
               </div>
-              <div className={commonStyleClasses.titleDescription}>
-                <ul>
-                  <li>내가 기안한 문서 중 결재 진행 중인 문서를 확인할 수 있습니다.</li>
-                  <li>문서보기 버튼으로 상세 내용을 확인할 수 있습니다.</li>
-                </ul>
-              </div>
+              <ul>
+                <li>내가 기안한 문서 중 결재 진행 중인 문서를 확인할 수 있습니다.</li>
+                <li>문서보기 버튼으로 상세 내용을 확인할 수 있습니다.</li>
+              </ul>
             </Box>
           </Card>
         </Grid>
@@ -59,25 +62,42 @@ const DocumentOutboxPage = (
               <Table className={commonStyleClasses.resultTable} stickyHeader>
                 <TableHead>
                   <TableRow>
-                    <TableCell className={commonStyleClasses.resultTableHeadCell}>ID</TableCell>
-                    <TableCell className={commonStyleClasses.resultTableHeadCell}>분류</TableCell>
-                    <TableCell className={commonStyleClasses.resultTableHeadCell}>제목</TableCell>
-                    <TableCell className={commonStyleClasses.resultTableHeadCell}>결재상태</TableCell>
-                    <TableCell className={commonStyleClasses.resultTableHeadCell}>문서보기</TableCell>
+                    <TableCell width="10%" className={commonStyleClasses.resultTableHeadCell}>ID</TableCell>
+                    <TableCell width="20%" className={commonStyleClasses.resultTableHeadCell}>분류</TableCell>
+                    <TableCell width="30%" className={commonStyleClasses.resultTableHeadCell}>제목</TableCell>
+                    <TableCell width="20%" className={commonStyleClasses.resultTableHeadCell}>결재상태</TableCell>
+                    <TableCell width="20%" className={commonStyleClasses.resultTableHeadCell}>문서내용</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {
                     outboxDocuments.map((document, index) => (
                       <TableRow key={index}>
-                        <TableCell className={commonStyleClasses.resultTableBodyCell}>{document.id}</TableCell>
-                        <TableCell className={commonStyleClasses.resultTableBodyCell}>{document.categoryText}</TableCell>
-                        <TableCell className={commonStyleClasses.resultTableBodyCell}>{document.title}</TableCell>
-                        <TableCell
-                          className={commonStyleClasses.resultTableBodyCell}>{document.approvalStateText}
+                        <TableCell className={commonStyleClasses.resultTableBodyCell}>
+                          {document.id}
                         </TableCell>
                         <TableCell className={commonStyleClasses.resultTableBodyCell}>
-
+                          {document.categoryText}
+                        </TableCell>
+                        <TableCell className={commonStyleClasses.resultTableBodyCell}>
+                          {document.title}
+                        </TableCell>
+                        <TableCell className={commonStyleClasses.resultTableBodyCell}>
+                          {document.approvalStateText}
+                        </TableCell>
+                        <TableCell className={commonStyleClasses.resultTableBodyCell}>
+                          <Button
+                            variant="contained"
+                            disableElevation
+                            onClick={() => {
+                              setDocumentModalOpen({
+                                documentId: document.id,
+                                open: true
+                              });
+                            }}
+                          >
+                            보기
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))
@@ -88,6 +108,12 @@ const DocumentOutboxPage = (
           </Box>
         </Grid>
       </Grid>
+
+      <DocumentModal
+        modalOpen={documentModalOpen}
+        setModalOpen={setDocumentModalOpen}
+      />
+
     </>
   );
 }
