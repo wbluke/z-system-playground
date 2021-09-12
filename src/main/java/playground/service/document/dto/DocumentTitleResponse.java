@@ -8,14 +8,14 @@ import playground.domain.document.Document;
 
 @Getter
 @NoArgsConstructor
-public class DocumentTitleResponseDto {
+public class DocumentTitleResponse {
 
     private Long id;
     private String title;
     private Category category;
     private ApprovalState approvalState;
 
-    public DocumentTitleResponseDto(Document document) {
+    public DocumentTitleResponse(Document document) {
         this.id = document.getId();
         this.title = document.getTitle();
         this.category = document.getCategory();

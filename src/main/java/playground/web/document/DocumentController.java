@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import playground.domain.document.Category;
 import playground.service.document.DocumentService;
-import playground.service.document.dto.DocumentResponseDto;
-import playground.service.document.dto.DocumentTitleResponseDto;
-import playground.web.document.dto.DocumentCreateRequestDto;
-import playground.web.document.dto.DocumentInboxRequestDto;
-import playground.web.document.dto.DocumentOutboxRequestDto;
+import playground.service.document.dto.DocumentResponse;
+import playground.service.document.dto.DocumentTitleResponse;
+import playground.web.document.dto.DocumentCreateRequest;
+import playground.web.document.dto.DocumentInboxRequest;
+import playground.web.document.dto.DocumentOutboxRequest;
 import playground.web.dto.EnumResponse;
 
 import java.util.Arrays;
@@ -27,25 +27,25 @@ public class DocumentController {
     private final DocumentService documentService;
 
     @GetMapping("/api/documents/outbox")
-    public ResponseEntity<List<DocumentTitleResponseDto>> findOutboxDocuments(DocumentOutboxRequestDto requestDto) {
-        List<DocumentTitleResponseDto> outboxDocumentResponses = documentService.findOutboxDocuments(requestDto);
+    public ResponseEntity<List<DocumentTitleResponse>> findOutboxDocuments(DocumentOutboxRequest requestDto) {
+        List<DocumentTitleResponse> outboxDocumentResponses = documentService.findOutboxDocuments(requestDto);
         return ResponseEntity.ok(outboxDocumentResponses);
     }
 
     @GetMapping("/api/documents/inbox")
-    public ResponseEntity<List<DocumentTitleResponseDto>> findInboxDocuments(DocumentInboxRequestDto requestDto) {
-        List<DocumentTitleResponseDto> inboxDocumentResponses = documentService.findInboxDocuments(requestDto);
+    public ResponseEntity<List<DocumentTitleResponse>> findInboxDocuments(DocumentInboxRequest requestDto) {
+        List<DocumentTitleResponse> inboxDocumentResponses = documentService.findInboxDocuments(requestDto);
         return ResponseEntity.ok(inboxDocumentResponses);
     }
 
     @GetMapping("/api/documents/{documentId}")
-    public ResponseEntity<DocumentResponseDto> findDocument(@PathVariable Long documentId) {
-        DocumentResponseDto documentResponse = documentService.findDocument(documentId);
+    public ResponseEntity<DocumentResponse> findDocument(@PathVariable Long documentId) {
+        DocumentResponse documentResponse = documentService.findDocument(documentId);
         return ResponseEntity.ok(documentResponse);
     }
 
     @PostMapping("/api/documents")
-    public ResponseEntity<Object> createDocument(@RequestBody DocumentCreateRequestDto requestDto) {
+    public ResponseEntity<Object> createDocument(@RequestBody DocumentCreateRequest requestDto) {
         documentService.create(requestDto);
         return ResponseEntity.ok().build();
     }

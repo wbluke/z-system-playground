@@ -4,12 +4,12 @@ import lombok.Getter;
 import playground.domain.team.Team;
 
 @Getter
-public class TeamResponseDto {
+public class TeamResponse {
 
     private final Long id;
     private final String name;
 
-    public TeamResponseDto(Team team) {
+    public TeamResponse(Team team) {
         this.id = team.getId();
         this.name = team.getName();
     }

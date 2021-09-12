@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DocumentOutboxRequestDto {
+public class DocumentOutboxRequest {
 
     private Long drafterId; // TODO: 2021/08/22 extract userId to loginMember
 

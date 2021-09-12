@@ -10,7 +10,7 @@ import java.util.List;
 import static playground.domain.document.ApprovalState.DRAFTING;
 
 @Getter
-public class DocumentCreateRequestDto {
+public class DocumentCreateRequest {
 
     private String title;
     private Category category;

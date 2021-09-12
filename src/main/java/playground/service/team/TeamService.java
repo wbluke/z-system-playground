@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.domain.team.Team;
 import playground.domain.team.TeamRepository;
-import playground.service.team.dto.TeamResponseDto;
+import playground.service.team.dto.TeamResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,11 +17,11 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
 
-    public List<TeamResponseDto> findAllTeams() {
+    public List<TeamResponse> findAllTeams() {
         List<Team> teams = teamRepository.findAll();
 
         return teams.stream()
-                .map(TeamResponseDto::new)
+                .map(TeamResponse::new)
                 .collect(Collectors.toList());
     }
 

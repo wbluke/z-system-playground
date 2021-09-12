@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UsersByTeamIdRequestDto {
+public class UsersByTeamIdRequest {
 
     private Long teamId;
 

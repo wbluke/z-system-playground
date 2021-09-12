@@ -9,11 +9,12 @@ import playground.domain.document.DocumentApprovalRepository;
 import playground.domain.document.DocumentRepository;
 import playground.domain.user.User;
 import playground.domain.user.UserRepository;
-import playground.service.document.dto.DocumentResponseDto;
-import playground.service.document.dto.DocumentTitleResponseDto;
-import playground.web.document.dto.DocumentCreateRequestDto;
-import playground.web.document.dto.DocumentInboxRequestDto;
-import playground.web.document.dto.DocumentOutboxRequestDto;
+import playground.service.document.dto.DocumentApprovalResponse;
+import playground.service.document.dto.DocumentResponse;
+import playground.service.document.dto.DocumentTitleResponse;
+import playground.web.document.dto.DocumentCreateRequest;
+import playground.web.document.dto.DocumentInboxRequest;
+import playground.web.document.dto.DocumentOutboxRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,13 +30,13 @@ public class DocumentService {
     private final UserRepository userRepository;
     private final DocumentApprovalRepository documentApprovalRepository;
 
-    public List<DocumentTitleResponseDto> findOutboxDocuments(DocumentOutboxRequestDto requestDto) {
+    public List<DocumentTitleResponse> findOutboxDocuments(DocumentOutboxRequest requestDto) {
         User drafter = findUserById(requestDto.getDrafterId());
         List<Document> outboxDocuments = documentRepository.findByDrafterAndApprovalState(drafter, DRAFTING);
         return convertTitleDtoFrom(outboxDocuments);
     }
 
-    public List<DocumentTitleResponseDto> findInboxDocuments(DocumentInboxRequestDto requestDto) {
+    public List<DocumentTitleResponse> findInboxDocuments(DocumentInboxRequest requestDto) {
         User approver = findUserById(requestDto.getApproverId());
         List<DocumentApproval> inboxDocumentApprovals = documentApprovalRepository.findByApproverAndApprovalState(approver, DRAFTING);
 
@@ -46,15 +47,20 @@ public class DocumentService {
         return convertTitleDtoFrom(inboxDocuments);
     }
 
-    public DocumentResponseDto findDocument(Long documentId) {
+    public DocumentResponse findDocument(Long documentId) {
         Document document = findDocumentById(documentId);
-        User drafter = document.getDrafter();
 
-        return new DocumentResponseDto(document, drafter);
+        List<DocumentApproval> documentApprovals = document.getDocumentApprovals();
+        List<DocumentApprovalResponse> approvalResponses = documentApprovals.stream()
+                .map(DocumentApprovalResponse::of)
+                .sorted()
+                .collect(Collectors.toList());
+
+        return new DocumentResponse(document, approvalResponses);
     }
 
     @Transactional
-    public void create(DocumentCreateRequestDto requestDto) {
+    public void create(DocumentCreateRequest requestDto) {
         User drafter = findUserById(requestDto.getDrafterId());
         Document document = requestDto.toEntity(drafter);
         Document savedDocument = documentRepository.save(document);
@@ -70,9 +76,9 @@ public class DocumentService {
         }
     }
 
-    private List<DocumentTitleResponseDto> convertTitleDtoFrom(List<Document> documents) {
+    private List<DocumentTitleResponse> convertTitleDtoFrom(List<Document> documents) {
         return documents.stream()
-                .map(DocumentTitleResponseDto::new)
+                .map(DocumentTitleResponse::new)
                 .collect(Collectors.toList());
     }
 
