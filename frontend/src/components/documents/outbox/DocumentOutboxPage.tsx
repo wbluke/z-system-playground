@@ -36,8 +36,6 @@ const DocumentOutboxPage = (
 
   const commonStyleClasses = commonStyles();
 
-  const results = ['a']
-
   return (
     <>
       <Grid container spacing={1}>

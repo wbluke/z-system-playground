@@ -32,7 +32,7 @@ public class DocumentService {
 
     public List<DocumentTitleResponse> findOutboxDocuments(DocumentOutboxRequest requestDto) {
         User drafter = findUserById(requestDto.getDrafterId());
-        List<Document> outboxDocuments = documentRepository.findByDrafterAndApprovalState(drafter, DRAFTING);
+        List<Document> outboxDocuments = documentRepository.findByDrafterAndApprovalStateOrderByIdDesc(drafter, DRAFTING);
         return convertTitleDtoFrom(outboxDocuments);
     }
 

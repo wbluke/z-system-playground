@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
-    List<Document> findByDrafterAndApprovalState(User drafter, ApprovalState approvalState);
+    List<Document> findByDrafterAndApprovalStateOrderByIdDesc(User drafter, ApprovalState approvalState);
 
 }

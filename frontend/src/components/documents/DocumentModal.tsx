@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
   Backdrop,
   Card,
@@ -73,11 +73,11 @@ const DocumentModal = (
   };
   const [document, setDocument] = useState<IDocument>(initialDocumentState);
 
-  const fetchDocument = async () => {
+  const fetchDocument = useCallback(async () => {
     const {data: document} = await request.get(`/api/documents/${modalOpen.documentId}`);
 
     setDocument(document);
-  }
+  }, [modalOpen.documentId])
 
   const handleClose = () => {
     setModalOpen({documentId: 0, open: false});
@@ -92,7 +92,7 @@ const DocumentModal = (
     if (modalOpen.open) {
       fetchDocument();
     }
-  }, [modalOpen.open]);
+  }, [modalOpen.open, fetchDocument]);
 
   return (
     <>
@@ -241,6 +241,7 @@ const useStyles = makeStyles(theme => ({
     padding: '20px',
     backgroundColor: '#F7F9FA',
     verticalAlign: 'top',
+    whiteSpace: 'pre-line',
   },
   documentTableCell: {
     textAlign: 'center',

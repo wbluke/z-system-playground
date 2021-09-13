@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react";
 import DocumentCreatePage, {IApprover, IDocumentCategorySelectItem, IDocumentPageParams} from "./DocumentCreatePage";
 import {request} from "../../../utils/requestUtils";
+import { useHistory } from 'react-router-dom';
 
 const DocumentCreatePageContainer = () => {
 
+  const history = useHistory();
   const [params, setParams] = useState<IDocumentPageParams>({
     category: '',
     title: '',
@@ -19,8 +21,15 @@ const DocumentCreatePageContainer = () => {
     setCategorySelectItems(categoryItems)
   }
 
-  const onConfirm = () => {
-    console.log(params)
+  const onConfirm = async () => {
+    const approverIds = approvers.map(item => item.id)
+
+    await request.post('/api/documents', {
+      ...params,
+      drafterId: 1,
+      approverIds
+    })
+    history.push("/documents/outbox");
   }
 
   useEffect(() => {
