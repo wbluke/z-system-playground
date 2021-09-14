@@ -16,7 +16,7 @@ const DocumentCreatePageContainer = () => {
   const [approvers, setApprovers] = useState<IApprover[]>([]);
 
   const fetchCategorySelectItems = async () => {
-    const {data: categoryItems} = await request.get('/api/documents/category')
+    const {data: categoryItems} = await request.get('/api/documents/categories')
 
     setCategorySelectItems(categoryItems)
   }

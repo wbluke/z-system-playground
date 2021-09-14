@@ -1,3 +1,3 @@
-### document 단건 조회
-GET http://localhost:8080/api/users?teamId=1
+### team에 속한 users 조회
+GET http://localhost:8080/api/users?teamId=2
 

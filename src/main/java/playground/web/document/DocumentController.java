@@ -50,7 +50,7 @@ public class DocumentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/api/documents/category")
+    @GetMapping("/api/documents/categories")
     public ResponseEntity<List<EnumResponse<Category>>> getCategories() {
         List<EnumResponse<Category>> responses = Arrays.stream(Category.values())
                 .map(EnumResponse::new)
