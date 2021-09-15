@@ -24,6 +24,13 @@ repositories {
     mavenCentral()
 }
 
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter', 'junit-vintage'
+    }
+}
+
 dependencies {
     // Spring boot
     implementation('org.springframework.boot:spring-boot-starter-web')
@@ -34,6 +41,9 @@ dependencies {
 
     // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Junit
+    implementation 'org.junit.platform:junit-platform-launcher:1.6.0'
 
     // H2
     runtimeOnly 'com.h2database:h2'
