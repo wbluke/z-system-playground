@@ -45,6 +45,9 @@ dependencies {
     // Junit
     implementation 'org.junit.platform:junit-platform-launcher:1.6.0'
 
+    // validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     // H2
     runtimeOnly 'com.h2database:h2'
 

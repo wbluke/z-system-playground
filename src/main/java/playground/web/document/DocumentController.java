@@ -16,6 +16,7 @@ import playground.web.document.dto.DocumentInboxRequest;
 import playground.web.document.dto.DocumentOutboxRequest;
 import playground.web.dto.EnumResponse;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class DocumentController {
     private final DocumentService documentService;
 
     @GetMapping("/api/documents/outbox")
-    public ResponseEntity<List<DocumentTitleResponse>> findOutboxDocuments(DocumentOutboxRequest requestDto) {
+    public ResponseEntity<List<DocumentTitleResponse>> findOutboxDocuments(@Valid DocumentOutboxRequest requestDto) {
         List<DocumentTitleResponse> outboxDocumentResponses = documentService.findOutboxDocuments(requestDto);
         return ResponseEntity.ok(outboxDocumentResponses);
     }

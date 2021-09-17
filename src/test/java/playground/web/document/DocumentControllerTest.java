@@ -1,6 +1,5 @@
 package playground.web.document;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,13 +9,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import playground.service.document.DocumentService;
-import playground.service.document.dto.DocumentTitleResponse;
 
-import java.io.IOException;
-import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,30 +31,31 @@ class DocumentControllerTest {
     @DisplayName("outbox 문서들을 성공적으로 조회한다.")
     @Test
     void findOutboxDocuments() throws Exception {
-        // given
-
         // when
-        ResultActions result = mockMvc
+        mockMvc
                 .perform(get("/api/documents/outbox")
                         .param("drafterId", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andDo(print());
-
-        // then
-        MvcResult mvcResult = result.andExpect(status().isOk())
-                .andReturn();
-
-        List<DocumentTitleResponse> okData = extractOkData(mvcResult);
-        System.out.println(okData);
+                .andDo(print())
+                .andExpect(status().isOk()); // then
     }
 
-    private List<DocumentTitleResponse> extractOkData(MvcResult result) throws IOException {
-        return objectMapper.readValue(
-                result.getResponse().getContentAsString(),
-                new TypeReference<List<DocumentTitleResponse>>() {
-                }
-        );
+    @DisplayName("outbox 문서 조회 시 기안자 id가 없으면 예외 메시지를 반환한다.")
+    @Test
+    void findOutboxDocuments2() throws Exception {
+        // when
+        MvcResult mvcResult = mockMvc
+                .perform(get("/api/documents/outbox")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        // then
+        Exception resolvedException = mvcResult.getResolvedException();
+        assertThat(resolvedException.getMessage()).contains("기안자 id는 필수입니다.");
     }
 
 }
