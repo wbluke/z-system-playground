@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 import playground.domain.user.User;
 
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Getter
@@ -25,9 +28,11 @@ public class DocumentApproval {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Document document;
 
     @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private User approver;
 
     @Enumerated(EnumType.STRING)

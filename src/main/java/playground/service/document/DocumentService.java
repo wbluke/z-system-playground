@@ -30,15 +30,13 @@ public class DocumentService {
     private final UserRepository userRepository;
     private final DocumentApprovalRepository documentApprovalRepository;
 
-    public List<DocumentTitleResponse> findOutboxDocuments(DocumentOutboxRequest requestDto) {
-        User drafter = findUserById(requestDto.getDrafterId());
-        List<Document> outboxDocuments = documentRepository.findByDrafterAndApprovalStateOrderByIdDesc(drafter, DRAFTING);
+    public List<DocumentTitleResponse> findOutboxDocuments(DocumentOutboxRequest request) {
+        List<Document> outboxDocuments = documentRepository.findByDrafterIdAndApprovalStateOrderByIdDesc(request.getDrafterId(), DRAFTING);
         return convertTitleDtoFrom(outboxDocuments);
     }
 
-    public List<DocumentTitleResponse> findInboxDocuments(DocumentInboxRequest requestDto) {
-        User approver = findUserById(requestDto.getApproverId());
-        List<DocumentApproval> inboxDocumentApprovals = documentApprovalRepository.findByApproverAndApprovalState(approver, DRAFTING);
+    public List<DocumentTitleResponse> findInboxDocuments(DocumentInboxRequest request) {
+        List<DocumentApproval> inboxDocumentApprovals = documentApprovalRepository.findByApproverIdAndApprovalState(request.getApproverId(), DRAFTING);
 
         List<Document> inboxDocuments = inboxDocumentApprovals.stream()
                 .map(DocumentApproval::getDocument)

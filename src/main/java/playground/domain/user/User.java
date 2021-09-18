@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 import playground.domain.team.Team;
 
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Getter
@@ -33,6 +36,7 @@ public class User {
     private String name;
 
     @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Team team;
 
     @Enumerated(EnumType.STRING)
