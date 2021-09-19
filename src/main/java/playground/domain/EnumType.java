@@ -1,6 +1,6 @@
 package playground.domain;
 
-public interface EnumResponseType {
+public interface EnumType {
 
     String getText();
 

@@ -1,10 +1,10 @@
 package playground.web.dto;
 
 import lombok.Getter;
-import playground.domain.EnumResponseType;
+import playground.domain.EnumType;
 
 @Getter
-public class EnumResponse<T extends EnumResponseType> {
+public class EnumResponse<T extends EnumType> {
 
     private final T value;
     private final String text;

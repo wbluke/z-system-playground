@@ -2,11 +2,11 @@ package playground.domain.document;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import playground.domain.EnumResponseType;
+import playground.domain.EnumType;
 
 @Getter
 @RequiredArgsConstructor
-public enum Category implements EnumResponseType {
+public enum Category implements EnumType {
 
     OPERATING_EXPENSES("운영비"),
     EDUCATION("교육"),
