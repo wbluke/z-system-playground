@@ -8,13 +8,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import playground.service.document.DocumentService;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static playground.response.ApiExceptionResponseCode.BAD_PARAMETER;
 
 @WebMvcTest(DocumentController.class)
 class DocumentControllerTest {
@@ -45,17 +45,14 @@ class DocumentControllerTest {
     @Test
     void findOutboxDocuments2() throws Exception {
         // when
-        MvcResult mvcResult = mockMvc
+        mockMvc
                 .perform(get("/api/documents/outbox")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
-                .andReturn();
-
-        // then
-        Exception resolvedException = mvcResult.getResolvedException();
-        assertThat(resolvedException.getMessage()).contains("기안자 id는 필수입니다.");
+                .andExpect(jsonPath("$.code").value(BAD_PARAMETER.name()))
+                .andExpect(jsonPath("$.message").value("기안자 지정은 필수입니다."));
     }
 
 }
