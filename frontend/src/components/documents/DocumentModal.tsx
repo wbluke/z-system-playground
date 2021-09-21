@@ -13,6 +13,7 @@ import {
   TableRow
 } from "@material-ui/core";
 import {request} from "../../utils/requestUtils";
+import {convertLocalDateTimeToString} from "../../utils/localDateTimeUtils";
 
 interface IDocumentDrafter {
   id: number
@@ -32,6 +33,7 @@ interface IDocumentApprover {
 
 interface IDocument {
   id: number
+  createdDateTime: string
   title: string
   approvalStateText: string
   categoryText: string
@@ -59,6 +61,7 @@ const DocumentModal = (
 
   const initialDocumentState = {
     id: 0,
+    createdDateTime: '',
     title: '',
     approvalStateText: '',
     categoryText: '',
@@ -146,6 +149,19 @@ const DocumentModal = (
                         </TableCell>
                         <TableCell className={classes.documentTableResultCell}>
                           {`${document.drafter.teamName} ${document.drafter.name}`}
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell className={classes.documentTableCell}>
+                          생성시간
+                        </TableCell>
+                        <TableCell
+                          className={classes.documentTableResultCell}
+                          style={{textAlign: 'left', paddingLeft: '20px'}}
+                          colSpan={3}
+                        >
+                          {convertLocalDateTimeToString(document.createdDateTime)}
                         </TableCell>
                       </TableRow>
 

@@ -14,12 +14,14 @@ import {
 } from "@material-ui/core";
 import commonStyles from "../../../common/styles/CommonStyles";
 import DocumentModal, {IDocumentModalOpen} from "../DocumentModal";
+import {convertLocalDateTimeToString} from "../../../utils/localDateTimeUtils";
 
 export interface IOutboxDocument {
   id: number
   categoryText: string
   title: string
   approvalStateText: string
+  createdDateTime: string
 }
 
 interface IDocumentOutboxPage {
@@ -60,11 +62,12 @@ const DocumentOutboxPage = (
               <Table className={commonStyleClasses.resultTable} stickyHeader>
                 <TableHead>
                   <TableRow>
-                    <TableCell width="10%" className={commonStyleClasses.resultTableHeadCell}>ID</TableCell>
-                    <TableCell width="20%" className={commonStyleClasses.resultTableHeadCell}>분류</TableCell>
+                    <TableCell width="5%" className={commonStyleClasses.resultTableHeadCell}>ID</TableCell>
+                    <TableCell width="7%" className={commonStyleClasses.resultTableHeadCell}>분류</TableCell>
+                    <TableCell width="20%" className={commonStyleClasses.resultTableHeadCell}>생성시간</TableCell>
                     <TableCell width="30%" className={commonStyleClasses.resultTableHeadCell}>제목</TableCell>
-                    <TableCell width="20%" className={commonStyleClasses.resultTableHeadCell}>결재상태</TableCell>
-                    <TableCell width="20%" className={commonStyleClasses.resultTableHeadCell}>문서내용</TableCell>
+                    <TableCell width="10%" className={commonStyleClasses.resultTableHeadCell}>결재상태</TableCell>
+                    <TableCell width="10%" className={commonStyleClasses.resultTableHeadCell}>문서내용</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -76,6 +79,9 @@ const DocumentOutboxPage = (
                         </TableCell>
                         <TableCell className={commonStyleClasses.resultTableBodyCell}>
                           {document.categoryText}
+                        </TableCell>
+                        <TableCell className={commonStyleClasses.resultTableBodyCell}>
+                          {convertLocalDateTimeToString(document.createdDateTime)}
                         </TableCell>
                         <TableCell className={commonStyleClasses.resultTableBodyCell}>
                           {document.title}
