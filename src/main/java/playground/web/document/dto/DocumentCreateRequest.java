@@ -1,6 +1,8 @@
 package playground.web.document.dto;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import playground.domain.document.Category;
 import playground.domain.document.Document;
 import playground.domain.user.User;
@@ -13,6 +15,7 @@ import java.util.List;
 import static playground.domain.document.ApprovalState.DRAFTING;
 
 @Getter
+@NoArgsConstructor
 public class DocumentCreateRequest {
 
     @NotBlank(message = "문서 제목은 필수입니다.")
@@ -28,6 +31,15 @@ public class DocumentCreateRequest {
 
     @NotEmpty(message = "결재자 지정은 필수입니다.")
     private List<Long> approverIds;
+
+    @Builder
+    private DocumentCreateRequest(String title, Category category, String contents, Long drafterId, List<Long> approverIds) {
+        this.title = title;
+        this.category = category;
+        this.contents = contents;
+        this.drafterId = drafterId;
+        this.approverIds = approverIds;
+    }
 
     public Document toEntity(User drafter) {
         return Document.builder()
