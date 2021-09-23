@@ -53,6 +53,10 @@ public class User extends BaseTimeEntity {
         this.jobPosition = jobPosition;
     }
 
+    public boolean mismatchPassword(String password) {
+        return !this.password.equals(password);
+    }
+
     public String getTeamName() {
         return this.team.getName();
     }
