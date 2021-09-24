@@ -15,3 +15,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+security:
+  jwt:
+    token:
+      secret-key: WBD_secret_key
+      expire-length: 3600000

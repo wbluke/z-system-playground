@@ -1,9 +1,10 @@
-package playground.web.login.dto;
+package playground.web.auth.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @ToString
@@ -11,10 +12,10 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class LoginRequest {
 
-    @NotBlank
+    @Email(message = "이메일 형식을 확인해 주세요.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "비밀번호를 확인해 주세요.")
     private String password;
 
 }

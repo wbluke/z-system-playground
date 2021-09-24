@@ -1,4 +1,4 @@
-package playground.service.login.exception;
+package playground.service.auth.exception;
 
 public class LoginFailException extends IllegalArgumentException {
 
