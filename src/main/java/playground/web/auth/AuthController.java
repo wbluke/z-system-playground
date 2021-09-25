@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import playground.service.auth.LoginService;
-import playground.service.auth.dto.LoginToken;
+import playground.service.auth.AuthService;
+import playground.service.auth.dto.LoginTokenResponse;
 import playground.web.auth.dto.LoginRequest;
 
 import javax.validation.Valid;
@@ -17,14 +17,14 @@ import javax.validation.Valid;
 @RestController
 public class AuthController {
 
-    private final LoginService loginService;
+    private final AuthService authService;
 
     @PostMapping("/api/login")
-    public ResponseEntity<LoginToken> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<LoginTokenResponse> login(@Valid @RequestBody LoginRequest request) {
         log.debug("login request : {}", request);
-        LoginToken loginToken = loginService.login(request);
+        LoginTokenResponse loginTokenResponse = authService.login(request);
 
-        return ResponseEntity.ok(loginToken);
+        return ResponseEntity.ok(loginTokenResponse);
     }
 
 }

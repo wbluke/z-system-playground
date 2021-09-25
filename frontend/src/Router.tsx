@@ -1,31 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EcoIcon from '@material-ui/icons/Eco';
 import {HashRouter, Route, Switch} from "react-router-dom";
-import {AppBar, Box, Container, Divider, Drawer, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, Box, Container, Divider, Drawer, IconButton, makeStyles, Toolbar, Typography} from "@material-ui/core";
 import MainMenus from "./components/menus/Menus";
 import Copyright from "./components/copyright/Copyright";
-import {green} from "@material-ui/core/colors";
 import DocumentCreatePage from "./components/documents/create";
 import DocumentOutboxPage from "./components/documents/outbox";
 import DocumentInboxPage from "./components/documents/inbox";
 import DocumentArchivePage from "./components/documents/archive";
 import VacationCreatePage from "./components/vacations/create";
+import LoginPage from "./components/login/LoginPage";
+import {green} from "@material-ui/core/colors";
+import MainPage from "./components/main/MainPage";
+import {IUserLoginInfoReducer} from "./reducers/UserLoginInfoReducer";
+import {ReducerType} from "./reducers/RootReducer";
+import {useSelector} from "react-redux";
 
 const Router = () => {
 
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
-
-  const userInfo = {
-    name: '사용자',
-    email: 'user@gmail.com'
-  }
+  const [open, setOpen] = useState(false);
+  const userInfo = useSelector<ReducerType, IUserLoginInfoReducer>(state => state.userLoginInfoReducer);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -37,22 +37,26 @@ const Router = () => {
 
   return (
     <HashRouter>
-      <div className={classes.root}>
-        <AppBar position="fixed" className={clsx(classes.appBar, open && classes.appBarShift)}>
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-            >
-              <MenuIcon/>
-            </IconButton>
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              WBD 인사시스템
-            </Typography>
-            <span className={classes.userInfo}>
+      <Switch>
+        <Route path="/" exact component={LoginPage}/>
+
+        <>
+          <div className={classes.root}>
+            <AppBar position="fixed" className={clsx(classes.appBar, open && classes.appBarShift)}>
+              <Toolbar className={classes.toolbar}>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                >
+                  <MenuIcon/>
+                </IconButton>
+                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                  WBD 인사시스템
+                </Typography>
+                <span className={classes.userInfo}>
             <EcoIcon className={classes.userIcon}/>
             <span className={classes.userGreeting}>
               {userInfo.name} 님 환영합니다! ( {userInfo.email} )
@@ -66,44 +70,46 @@ const Router = () => {
               </a>
             </div>
           </span>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon/>
-            </IconButton>
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              variant="permanent"
+              classes={{
+                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+              }}
+              open={open}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={handleDrawerClose}>
+                  <ChevronLeftIcon/>
+                </IconButton>
+              </div>
+              <Divider/>
+              <MainMenus/>
+            </Drawer>
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer}/>
+              <Container maxWidth="lg" className={classes.container}>
+
+                <Switch>
+                  <Route path="/main" exact component={MainPage}/>
+                  <Route path="/documents/create" exact component={DocumentCreatePage}/>
+                  <Route path="/documents/outbox" exact component={DocumentOutboxPage}/>
+                  <Route path="/documents/inbox" exact component={DocumentInboxPage}/>
+                  <Route path="/documents/archive" exact component={DocumentArchivePage}/>
+                  <Route path="/vacations/create" exact component={VacationCreatePage}/>
+                  <Route component={() => <><h2>잘못된 경로입니다. 뒤로 가기를 눌러주세요.</h2></>}/>
+                </Switch>
+
+                <Box pt={4}>
+                  <Copyright/>
+                </Box>
+
+              </Container>
+            </main>
           </div>
-          <Divider/>
-          <MainMenus/>
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer}/>
-          <Container maxWidth="lg" className={classes.container}>
-
-            <Switch>
-              {/*<Route path="/" exact component={LoginPage}/>*/}
-              <Route path="/documents/create" exact component={DocumentCreatePage}/>
-              <Route path="/documents/outbox" exact component={DocumentOutboxPage}/>
-              <Route path="/documents/inbox" exact component={DocumentInboxPage}/>
-              <Route path="/documents/archive" exact component={DocumentArchivePage}/>
-              <Route path="/vacations/create" exact component={VacationCreatePage}/>
-              <Route component={() => <><h2>잘못된 경로입니다. 뒤로 가기를 눌러주세요.</h2></>}/>
-            </Switch>
-
-            <Box pt={4}>
-              <Copyright/>
-            </Box>
-
-          </Container>
-        </main>
-      </div>
+        </>
+      </Switch>
     </HashRouter>
   );
 }

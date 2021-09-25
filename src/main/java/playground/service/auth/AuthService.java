@@ -6,19 +6,19 @@ import org.springframework.stereotype.Service;
 import playground.auth.JwtTokenProvider;
 import playground.domain.user.User;
 import playground.domain.user.UserRepository;
-import playground.service.auth.dto.LoginToken;
+import playground.service.auth.dto.LoginTokenResponse;
 import playground.service.auth.exception.LoginFailException;
 import playground.web.auth.dto.LoginRequest;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class LoginService {
+public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public LoginToken login(LoginRequest request) {
+    public LoginTokenResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(LoginFailException::new);
 
@@ -28,7 +28,7 @@ public class LoginService {
 
         log.info("login success : userId = {}", user.getId());
         String token = jwtTokenProvider.createToken(user.getId().toString());
-        return LoginToken.of(token);
+        return LoginTokenResponse.of(token, user);
     }
 
 }
