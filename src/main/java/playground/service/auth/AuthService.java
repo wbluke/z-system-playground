@@ -3,6 +3,7 @@ package playground.service.auth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import playground.auth.JwtTokenProvider;
 import playground.domain.user.User;
 import playground.domain.user.UserRepository;
@@ -12,6 +13,7 @@ import playground.web.auth.dto.LoginRequest;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class AuthService {
 
@@ -29,6 +31,10 @@ public class AuthService {
         log.info("login success : userId = {}", user.getId());
         String token = jwtTokenProvider.createToken(user.getId().toString());
         return LoginTokenResponse.of(token, user);
+    }
+
+    public boolean checkTokenValidity(String token) {
+        return jwtTokenProvider.validateToken(token);
     }
 
 }

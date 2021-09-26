@@ -2,13 +2,27 @@ import axios, {AxiosRequestConfig} from "axios";
 import {getQueryParamString} from "./parameterUtils";
 
 const DEFAULT_TIMEOUT = 600000;
+const token = localStorage.getItem('token');
 
 const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
   },
   timeout: DEFAULT_TIMEOUT,
 })
+
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 403) {
+      window.location.href = '/'
+    }
+    return Promise.reject(error);
+  }
+);
 
 const request = (() => {
 

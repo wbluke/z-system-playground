@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Avatar, Box, Button, Container, CssBaseline, makeStyles, TextField, Typography} from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Copyright from "../copyright/Copyright";
@@ -23,15 +23,21 @@ const LoginPage = () => {
     password: ''
   });
 
-  const checkLogin = async () => {
+  const checkLogin = useCallback(async () => {
     const token = localStorage.getItem("token");
-    console.log(token)
     if (token != null) {
+      try {
+        const response = await request.get('/api/login/token');
+        if (response.status === 200) {
+          history.push("/main");
+          return;
+        }
 
+      } catch (error) {
+        localStorage.removeItem('token')
+      }
     }
-    // "Authorization": "Bearer " + localStorage.getItem("token")
-
-  }
+  }, [history])
 
   const login = async () => {
     const response = await request.post('/api/login', loginInfo);
@@ -40,7 +46,6 @@ const LoginPage = () => {
       const token = response.data.token
       localStorage.setItem("token", token)
 
-      console.log(response.data)
       dispatch(setUserLoginInfo({email: response.data.email, name: response.data.name}));
 
       history.push("/main");
@@ -50,7 +55,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     checkLogin();
-  }, [])
+  }, [checkLogin])
 
   return (
     <Container component="main" maxWidth="xs">
