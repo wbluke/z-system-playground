@@ -5,7 +5,7 @@ import Copyright from "../copyright/Copyright";
 import {request} from "../../utils/requestUtils";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {setUserLoginInfo} from 'reducers/UserLoginInfoReducer';
+import {resetUserLoginInfo, setUserLoginInfo} from 'reducers/UserLoginInfoReducer';
 
 interface ILoginInfo {
   email: string
@@ -35,8 +35,11 @@ const LoginPage = () => {
 
       } catch (error) {
         localStorage.removeItem('token')
+        dispatch(resetUserLoginInfo());
       }
     }
+
+    dispatch(resetUserLoginInfo());
   }, [history])
 
   const login = async () => {

@@ -16,13 +16,15 @@ import VacationCreatePage from "./components/vacations/create";
 import LoginPage from "./components/login/LoginPage";
 import {green} from "@material-ui/core/colors";
 import MainPage from "./components/main/MainPage";
-import {IUserLoginInfoReducer} from "./reducers/UserLoginInfoReducer";
+import {IUserLoginInfoReducer, resetUserLoginInfo} from "./reducers/UserLoginInfoReducer";
 import {ReducerType} from "./reducers/RootReducer";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const Router = () => {
 
   const classes = useStyles();
+
+  const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
   const userInfo = useSelector<ReducerType, IUserLoginInfoReducer>(state => state.userLoginInfoReducer);
@@ -34,6 +36,11 @@ const Router = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(resetUserLoginInfo());
+  }
 
   return (
     <HashRouter>
@@ -63,7 +70,7 @@ const Router = () => {
             </span>
             <div className={classes.logout}>
               <ExitToAppIcon className={classes.logoutIcon}/>
-              <a className={classes.logoutButton} href="/">
+              <a href="/#" className={classes.logoutButton} onClick={onLogout}>
                 <span className={classes.logoutButtonText}>
                   로그아웃
                 </span>
@@ -216,7 +223,8 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: 'text-top',
     '&:visited': {
       color: 'black'
-    }
+    },
+    cursor: 'pointer',
   },
   logoutButtonText: {
     color: 'white',
