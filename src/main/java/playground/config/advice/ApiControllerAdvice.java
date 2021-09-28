@@ -1,4 +1,4 @@
-package playground.advice;
+package playground.config.advice;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;

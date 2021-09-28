@@ -1,4 +1,4 @@
-package playground.auth;
+package playground.config.auth;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package playground.auth;
+package playground.config.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

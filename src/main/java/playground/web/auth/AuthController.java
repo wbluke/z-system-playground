@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import playground.auth.AuthorizationExtractor;
+import playground.config.auth.AuthorizationExtractor;
 import playground.service.auth.AuthService;
 import playground.service.auth.dto.LoginTokenResponse;
 import playground.web.auth.dto.LoginRequest;
