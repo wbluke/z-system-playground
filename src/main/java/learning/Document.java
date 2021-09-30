@@ -3,8 +3,10 @@ package learning;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static learning.ApprovalState.APPROVED;
+import static learning.ApprovalState.DRAFTING;
 
 @Getter
 public class Document {
@@ -13,17 +15,16 @@ public class Document {
     private String title;
     private Category category;
     private String contents;
-    private ApprovalState approvalState;
+    private ApprovalState approvalState = DRAFTING;
     private User drafter;
-    private final List<DocumentApproval> documentApprovals = new ArrayList<>();
+    private final DocumentApprovals documentApprovals = new DocumentApprovals();
 
     @Builder
-    private Document(Long id, String title, Category category, String contents, ApprovalState approvalState, User drafter) {
+    private Document(Long id, String title, Category category, String contents, User drafter) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.contents = contents;
-        this.approvalState = approvalState;
         this.drafter = drafter;
     }
 
@@ -34,14 +35,21 @@ public class Document {
         }
     }
 
-    public void approveBy(User user2) {
+    public void approveBy(User approver, String approvalComment) {
+        documentApprovals.approveBy(approver, approvalComment);
 
+        if (documentApprovals.areAllApproved()) {
+            this.approvalState = APPROVED;
+        }
+    }
+
+    public List<DocumentApproval> getDocumentApprovals() {
+        return documentApprovals.getApprovals();
     }
 
     private DocumentApproval createDocumentApproval(User user, int approvalOrder) {
         return DocumentApproval.builder()
                 .approver(user)
-                .approvalState(ApprovalState.DRAFTING)
                 .approvalOrder(approvalOrder)
                 .build();
     }

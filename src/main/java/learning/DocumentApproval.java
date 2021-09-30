@@ -1,22 +1,41 @@
 package learning;
 
 import lombok.Builder;
+import lombok.Getter;
 
+import static learning.ApprovalState.APPROVED;
+import static learning.ApprovalState.DRAFTING;
+
+@Getter
 public class DocumentApproval {
 
-    private Document document;
     private User approver;
-    private ApprovalState approvalState;
+    private ApprovalState approvalState = DRAFTING;
     private Integer approvalOrder;
     private String approvalComment;
 
     @Builder
-    private DocumentApproval(Document document, User approver, ApprovalState approvalState, Integer approvalOrder, String approvalComment) {
-        this.document = document;
+    private DocumentApproval(User approver, Integer approvalOrder, String approvalComment) {
         this.approver = approver;
-        this.approvalState = approvalState;
         this.approvalOrder = approvalOrder;
         this.approvalComment = approvalComment;
+    }
+
+    public void approveWith(String approvalComment) {
+        this.approvalState = APPROVED;
+        this.approvalComment = approvalComment;
+    }
+
+    public boolean isApproved() {
+        return approvalState.isApproved();
+    }
+
+    public boolean isProgressing() {
+        return approvalState.isProgressing();
+    }
+
+    public boolean isSameApprover(User user) {
+        return this.approver.isSame(user);
     }
 
 }
