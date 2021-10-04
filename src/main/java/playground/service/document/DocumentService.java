@@ -9,12 +9,12 @@ import playground.domain.document.DocumentApprovalRepository;
 import playground.domain.document.DocumentRepository;
 import playground.domain.user.User;
 import playground.domain.user.UserRepository;
+import playground.service.auth.dto.LoginUser;
 import playground.service.document.dto.DocumentApprovalResponse;
 import playground.service.document.dto.DocumentResponse;
 import playground.service.document.dto.DocumentTitleResponse;
 import playground.web.document.dto.DocumentCreateRequest;
 import playground.web.document.dto.DocumentInboxRequest;
-import playground.web.document.dto.DocumentOutboxRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,8 +30,8 @@ public class DocumentService {
     private final UserRepository userRepository;
     private final DocumentApprovalRepository documentApprovalRepository;
 
-    public List<DocumentTitleResponse> findOutboxDocuments(DocumentOutboxRequest request) {
-        List<Document> outboxDocuments = documentRepository.findByDrafterIdAndApprovalStateOrderByIdDesc(request.getDrafterId(), DRAFTING);
+    public List<DocumentTitleResponse> findOutboxDocuments(LoginUser loginUser) {
+        List<Document> outboxDocuments = documentRepository.findByDrafterIdAndApprovalStateOrderByIdDesc(loginUser.getId(), DRAFTING);
         return convertTitleDtoFrom(outboxDocuments);
     }
 

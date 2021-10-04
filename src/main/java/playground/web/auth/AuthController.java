@@ -34,7 +34,7 @@ public class AuthController {
     @GetMapping("/api/login/token")
     public ResponseEntity<LoginTokenResponse> checkLogin(HttpServletRequest request) {
         String token = AuthorizationExtractor.extract(request);
-        if (authService.checkTokenValidity(token)) {
+        if (authService.isValidToken(token)) {
             return ResponseEntity.ok().build();
         }
 

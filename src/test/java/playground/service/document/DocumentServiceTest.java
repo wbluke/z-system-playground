@@ -12,8 +12,8 @@ import playground.domain.document.DocumentRepository;
 import playground.domain.user.JobPosition;
 import playground.domain.user.User;
 import playground.domain.user.UserRepository;
+import playground.service.auth.dto.LoginUser;
 import playground.service.document.dto.DocumentTitleResponse;
-import playground.web.document.dto.DocumentOutboxRequest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,12 +56,10 @@ class DocumentServiceTest {
         Document document4 = createDocument("title4", EDUCATION, DRAFTING, user2);
         documentRepository.saveAll(Arrays.asList(document1, document2, document3, document4));
 
-        DocumentOutboxRequest request = DocumentOutboxRequest.builder()
-                .drafterId(user1.getId())
-                .build();
+        LoginUser loginUser = LoginUser.of(user1);
 
         // when
-        List<DocumentTitleResponse> outboxDocuments = documentService.findOutboxDocuments(request);
+        List<DocumentTitleResponse> outboxDocuments = documentService.findOutboxDocuments(loginUser);
 
         // then
         assertThat(outboxDocuments).hasSize(2)

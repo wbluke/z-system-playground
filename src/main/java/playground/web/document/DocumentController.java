@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import playground.config.auth.Login;
 import playground.domain.document.Category;
+import playground.service.auth.dto.LoginUser;
 import playground.service.document.DocumentService;
 import playground.service.document.dto.DocumentResponse;
 import playground.service.document.dto.DocumentTitleResponse;
 import playground.web.document.dto.DocumentCreateRequest;
 import playground.web.document.dto.DocumentInboxRequest;
-import playground.web.document.dto.DocumentOutboxRequest;
 import playground.web.dto.EnumResponse;
 
 import javax.validation.Valid;
@@ -28,8 +29,8 @@ public class DocumentController {
     private final DocumentService documentService;
 
     @GetMapping("/api/documents/outbox")
-    public ResponseEntity<List<DocumentTitleResponse>> findOutboxDocuments(@Valid DocumentOutboxRequest requestDto) {
-        List<DocumentTitleResponse> outboxDocumentResponses = documentService.findOutboxDocuments(requestDto);
+    public ResponseEntity<List<DocumentTitleResponse>> findOutboxDocuments(@Login LoginUser loginUser) {
+        List<DocumentTitleResponse> outboxDocumentResponses = documentService.findOutboxDocuments(loginUser);
         return ResponseEntity.ok(outboxDocumentResponses);
     }
 
