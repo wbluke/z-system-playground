@@ -47,8 +47,8 @@ public class DocumentController {
     }
 
     @PostMapping("/api/documents")
-    public ResponseEntity<Object> createDocument(@Valid @RequestBody DocumentCreateRequest requestDto) {
-        documentService.create(requestDto);
+    public ResponseEntity<Object> createDocument(@Valid @RequestBody DocumentCreateRequest requestDto, @Login LoginUser loginUser) {
+        documentService.create(requestDto, loginUser);
         return ResponseEntity.ok().build();
     }
 

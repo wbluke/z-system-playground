@@ -26,18 +26,14 @@ public class DocumentCreateRequest {
 
     private String contents;
 
-    @NotNull(message = "기안자 지정은 필수입니다.")
-    private Long drafterId;
-
     @NotEmpty(message = "결재자 지정은 필수입니다.")
     private List<Long> approverIds;
 
     @Builder
-    private DocumentCreateRequest(String title, Category category, String contents, Long drafterId, List<Long> approverIds) {
+    private DocumentCreateRequest(String title, Category category, String contents, List<Long> approverIds) {
         this.title = title;
         this.category = category;
         this.contents = contents;
-        this.drafterId = drafterId;
         this.approverIds = approverIds;
     }
 

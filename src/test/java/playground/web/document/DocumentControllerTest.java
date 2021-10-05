@@ -1,21 +1,17 @@
 package playground.web.document;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import playground.config.interceptor.InvalidLoginTokenException;
-import playground.service.auth.AuthService;
 import playground.service.document.DocumentService;
+import playground.web.AbstractControllerMockUnitTest;
 import playground.web.document.dto.DocumentCreateRequest;
 
 import java.util.Arrays;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -26,25 +22,16 @@ import static playground.response.ApiExceptionResponseCode.BAD_PARAMETER;
 import static playground.response.ApiExceptionResponseCode.UNAUTHORIZED;
 
 @WebMvcTest(DocumentController.class)
-class DocumentControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
+class DocumentControllerTest extends AbstractControllerMockUnitTest {
 
     @MockBean
     private DocumentService documentService;
-
-    @MockBean
-    private AuthService authService;
 
     @DisplayName("로그인한 경우 outbox 문서들을 성공적으로 조회한다.")
     @Test
     void findOutboxDocuments() throws Exception {
         // given
-        when(authService.isValidToken(null)).thenReturn(true); // TODO: 2021/10/04 extract login feature to super method
+        mockLogin();
 
         // when
         mockMvc
@@ -73,10 +60,11 @@ class DocumentControllerTest {
     @Test
     void createDocument() throws Exception {
         // given
+        mockLogin();
+
         DocumentCreateRequest request = DocumentCreateRequest.builder()
                 .category(EDUCATION)
                 .contents("내용")
-                .drafterId(1L)
                 .approverIds(Arrays.asList(1L, 2L))
                 .build();
 

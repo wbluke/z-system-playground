@@ -58,8 +58,8 @@ public class DocumentService {
     }
 
     @Transactional
-    public void create(DocumentCreateRequest requestDto) {
-        User drafter = findUserById(requestDto.getDrafterId());
+    public void create(DocumentCreateRequest requestDto, LoginUser loginUser) {
+        User drafter = findUserById(loginUser.getId());
         Document document = requestDto.toEntity(drafter);
         Document savedDocument = documentRepository.save(document);
 
