@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {KeyboardEvent, useCallback, useEffect, useState} from 'react';
 import {Avatar, Box, Button, Container, CssBaseline, makeStyles, TextField, Typography} from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Copyright from "../copyright/Copyright";
@@ -56,6 +56,12 @@ const LoginPage = () => {
     }
   }
 
+  const enterLogin = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      login()
+    }
+  }
+
   useEffect(() => {
     checkLogin();
   }, [checkLogin])
@@ -71,7 +77,6 @@ const LoginPage = () => {
           WBD 인사시스템
         </Typography>
         <div className={classes.form}>
-
           <TextField
             variant="outlined"
             margin="normal"
@@ -85,6 +90,7 @@ const LoginPage = () => {
             onChange={event => {
               setLoginInfo({...loginInfo, email: event.target.value})
             }}
+            onKeyUp={enterLogin}
           />
           <TextField
             variant="outlined"
@@ -99,6 +105,7 @@ const LoginPage = () => {
             onChange={event => {
               setLoginInfo({...loginInfo, password: event.target.value})
             }}
+            onKeyUp={enterLogin}
           />
           {/*<FormControlLabel*/}
           {/*  control={<Checkbox value="remember" color="primary"/>}*/}
