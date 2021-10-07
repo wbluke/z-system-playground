@@ -10,6 +10,7 @@ GET http://localhost:8080/api/documents/categories
 ### document create
 POST http://localhost:8080/api/documents
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjMzNjE1NDkwLCJleHAiOjE2MzM2MTkwOTB9.Qbz6hRGffvfLbA40EmWO5DkOosQn1RoYb0M7zll7WYo
 
 {
   "title": "교육비 결재 요청",

@@ -61,17 +61,12 @@ public class DocumentService {
     public void create(DocumentCreateRequest requestDto, LoginUser loginUser) {
         User drafter = findUserById(loginUser.getId());
         Document document = requestDto.toEntity(drafter);
-        Document savedDocument = documentRepository.save(document);
 
         List<Long> approverIds = requestDto.getApproverIds();
         List<User> approvers = userRepository.findAllById(approverIds);
+        document.addApprovers(approvers);
 
-        for (int index = 0; index < approvers.size(); index++) {
-            User approver = approvers.get(index);
-            DocumentApproval documentApproval = createDocumentApproval(savedDocument, approver, index);
-
-            documentApprovalRepository.save(documentApproval);
-        }
+        documentRepository.save(document);
     }
 
     private List<DocumentTitleResponse> convertTitleDtoFrom(List<Document> documents) {
@@ -88,16 +83,6 @@ public class DocumentService {
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("존재하지 않는 사용자입니다. userId = %s", userId)));
-    }
-
-    private DocumentApproval createDocumentApproval(Document savedDocument, User approver, int approvalOrder) {
-        DocumentApproval documentApproval = DocumentApproval.builder()
-                .approvalState(DRAFTING)
-                .approver(approver)
-                .approvalOrder(approvalOrder)
-                .build();
-        documentApproval.updateDocument(savedDocument);
-        return documentApproval;
     }
 
 }

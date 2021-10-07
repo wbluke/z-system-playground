@@ -9,6 +9,7 @@ import playground.domain.user.User;
 
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,8 +19,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -48,8 +47,8 @@ public class Document extends BaseTimeEntity {
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private User drafter;
 
-    @OneToMany(mappedBy = "document")
-    private final List<DocumentApproval> documentApprovals = new ArrayList<>();
+    @Embedded
+    private final DocumentApprovals documentApprovals = new DocumentApprovals();
 
     @Builder
     private Document(String title, Category category, String contents, ApprovalState approvalState, User drafter) {
@@ -64,8 +63,28 @@ public class Document extends BaseTimeEntity {
         return drafter.getId();
     }
 
+    public void addApprovers(List<User> approvers) {
+        for (int index = 0; index < approvers.size(); index++) {
+            DocumentApproval documentApproval = createDocumentApproval(approvers.get(index), index + 1);
+            documentApprovals.add(documentApproval);
+        }
+    }
+
     public void addDocumentApproval(DocumentApproval documentApproval) {
         this.documentApprovals.add(documentApproval);
+    }
+
+    public List<DocumentApproval> getDocumentApprovals() {
+        return documentApprovals.getApprovals();
+    }
+
+    private DocumentApproval createDocumentApproval(User user, int approvalOrder) {
+        DocumentApproval approval = DocumentApproval.builder()
+                .approver(user)
+                .approvalOrder(approvalOrder)
+                .build();
+        approval.updateDocument(this);
+        return approval;
     }
 
 }

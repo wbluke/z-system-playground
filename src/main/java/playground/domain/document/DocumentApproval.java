@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import static playground.domain.document.ApprovalState.DRAFTING;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -51,6 +53,7 @@ public class DocumentApproval extends BaseTimeEntity {
         this.approvalState = approvalState;
         this.approvalOrder = approvalOrder;
         this.approvalComment = approvalComment;
+        this.approvalState = DRAFTING;
     }
 
     public void updateDocument(Document document) {
