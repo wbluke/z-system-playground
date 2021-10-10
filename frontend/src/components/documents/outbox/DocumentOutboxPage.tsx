@@ -117,7 +117,6 @@ const DocumentOutboxPage = (
         modalOpen={documentModalOpen}
         setModalOpen={setDocumentModalOpen}
       />
-
     </>
   );
 }
