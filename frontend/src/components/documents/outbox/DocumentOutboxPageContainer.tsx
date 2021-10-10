@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import DocumentOutboxPage, {IOutboxDocument} from "./DocumentOutboxPage";
 import {request} from "../../../utils/requestUtils";
-import {IDocumentModalOpen} from "../DocumentModal";
+import {IDocumentModalOpen} from "../modal/DocumentModal";
 
 const DocumentOutboxPageContainer = () => {
 

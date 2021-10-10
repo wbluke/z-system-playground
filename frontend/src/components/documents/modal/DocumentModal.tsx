@@ -12,8 +12,8 @@ import {
   TableContainer,
   TableRow
 } from "@material-ui/core";
-import {request} from "../../utils/requestUtils";
-import {convertLocalDateTimeToString} from "../../utils/localDateTimeUtils";
+import {request} from "../../../utils/requestUtils";
+import {convertLocalDateTimeToString} from "../../../utils/localDateTimeUtils";
 
 interface IDocumentDrafter {
   id: number

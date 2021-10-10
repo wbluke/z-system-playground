@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import DocumentInboxPage, {IInboxDocument} from "./DocumentInboxPage";
-import {IDocumentModalOpen} from "../DocumentModal";
+import {IDocumentModalOpen} from "../modal/DocumentModal";
 import {request} from "../../../utils/requestUtils";
-import {IDocumentApprovalModalOpen} from "../DocumentApprovalModal";
+import {IDocumentApprovalModalOpen} from "../modal/DocumentApprovalModal";
 
 const DocumentInboxPageContainer = () => {
 

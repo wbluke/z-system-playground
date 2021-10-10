@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {
-  Backdrop,
+  Backdrop, Button,
   Card,
   CardContent,
   Fade,
@@ -12,8 +12,9 @@ import {
   TableContainer,
   TableRow
 } from "@material-ui/core";
-import {request} from "../../utils/requestUtils";
-import {convertLocalDateTimeToString} from "../../utils/localDateTimeUtils";
+import {request} from "../../../utils/requestUtils";
+import {convertLocalDateTimeToString} from "../../../utils/localDateTimeUtils";
+import ApprovalCommentModal, {IApprovalCommentModalOpen} from "./ApprovalCommentModal";
 
 interface IDocumentDrafter {
   id: number
@@ -47,7 +48,7 @@ export interface IDocumentApprovalModalOpen {
   open: boolean
 }
 
-interface IDocumentModal {
+interface IDocumentApprovalModal {
   modalOpen: IDocumentApprovalModalOpen
   setModalOpen: (modalOpen: IDocumentApprovalModalOpen) => void
 }
@@ -55,7 +56,7 @@ interface IDocumentModal {
 const DocumentApprovalModal = (
   {
     modalOpen, setModalOpen
-  }: IDocumentModal) => {
+  }: IDocumentApprovalModal) => {
 
   const classes = useStyles();
 
@@ -75,6 +76,11 @@ const DocumentApprovalModal = (
     approvers: []
   };
   const [document, setDocument] = useState<IDocument>(initialDocumentState);
+
+  const [commentModalOpen, setCommentModalOpen] = useState<IApprovalCommentModalOpen>({
+    approvalUrl: '',
+    open: false
+  });
 
   const fetchDocument = useCallback(async () => {
     const {data: document} = await request.get(`/api/documents/${modalOpen.documentId}`);
@@ -206,9 +212,42 @@ const DocumentApprovalModal = (
               </CardContent>
             </Card>
 
+            <div className={classes.buttonSection}>
+              <Button
+                className={classes.approveButton}
+                variant="contained"
+                onClick={() => {
+                  setCommentModalOpen({
+                    approvalUrl: '',
+                    open: true
+                  })
+                }}
+              >
+                결재 승인
+              </Button>
+              <Button
+                className={classes.canceledButton}
+                variant="contained"
+                onClick={() => {
+                  setCommentModalOpen({
+                    approvalUrl: '',
+                    open: true
+                  })
+                }}
+              >
+                결재 반려
+              </Button>
+            </div>
+
           </div>
         </Fade>
       </Modal>
+
+      <ApprovalCommentModal
+        modalOpen={commentModalOpen}
+        setModalOpen={setCommentModalOpen}
+        closeParent={handleClose}
+      />
     </>
   );
 }
@@ -269,7 +308,21 @@ const useStyles = makeStyles(theme => ({
     border: '1px solid rgba(68, 157, 222, 0.3)',
     padding: '10px',
     backgroundColor: '#F7F9FA',
-  }
+  },
+  buttonSection: {
+    textAlign: 'right',
+    padding: '7px 0',
+  },
+  approveButton: {
+    margin: '5px',
+    backgroundColor: '#4799DE',
+    color: 'white',
+  },
+  canceledButton: {
+    margin: '5px',
+    backgroundColor: '#F0615D',
+    color: 'white',
+  },
 }));
 
 export default DocumentApprovalModal;

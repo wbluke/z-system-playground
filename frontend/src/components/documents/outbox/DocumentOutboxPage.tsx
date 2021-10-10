@@ -13,7 +13,7 @@ import {
   TableRow
 } from "@material-ui/core";
 import commonStyles from "../../../common/styles/CommonStyles";
-import DocumentModal, {IDocumentModalOpen} from "../DocumentModal";
+import DocumentModal, {IDocumentModalOpen} from "../modal/DocumentModal";
 import {convertLocalDateTimeToString} from "../../../utils/localDateTimeUtils";
 
 export interface IOutboxDocument {

@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import commonStyles from "../../../common/styles/CommonStyles";
 import {convertLocalDateTimeToString} from "../../../utils/localDateTimeUtils";
-import DocumentApprovalModal, {IDocumentApprovalModalOpen} from "../DocumentApprovalModal";
+import DocumentApprovalModal, {IDocumentApprovalModalOpen} from "../modal/DocumentApprovalModal";
 
 export interface IInboxDocument {
   id: number
