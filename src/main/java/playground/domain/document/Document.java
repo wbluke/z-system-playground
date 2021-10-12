@@ -51,19 +51,17 @@ public class Document extends BaseTimeEntity {
     private final DocumentApprovals documentApprovals = new DocumentApprovals();
 
     @Builder
-    private Document(String title, Category category, String contents, ApprovalState approvalState, User drafter) {
+    private Document(String title, Category category, String contents, ApprovalState approvalState, User drafter, List<User> approvers) {
         this.title = title;
         this.category = category;
         this.contents = contents;
         this.approvalState = approvalState;
         this.drafter = drafter;
+
+        addApprovers(approvers);
     }
 
-    public Long getDrafterId() {
-        return drafter.getId();
-    }
-
-    public void addApprovers(List<User> approvers) {
+    private void addApprovers(List<User> approvers) {
         for (int index = 0; index < approvers.size(); index++) {
             DocumentApproval documentApproval = createDocumentApproval(approvers.get(index), index + 1);
             documentApprovals.add(documentApproval);

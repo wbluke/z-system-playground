@@ -37,13 +37,14 @@ public class DocumentCreateRequest {
         this.approverIds = approverIds;
     }
 
-    public Document toEntity(User drafter) {
+    public Document toEntity(User drafter, List<User> approvers) {
         return Document.builder()
                 .title(title)
                 .category(category)
                 .contents(contents)
                 .drafter(drafter)
                 .approvalState(DRAFTING)
+                .approvers(approvers)
                 .build();
     }
 

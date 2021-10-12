@@ -14,7 +14,6 @@ import playground.service.document.dto.DocumentApprovalResponse;
 import playground.service.document.dto.DocumentResponse;
 import playground.service.document.dto.DocumentTitleResponse;
 import playground.web.document.dto.DocumentCreateRequest;
-import playground.web.document.dto.DocumentInboxRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,13 +34,8 @@ public class DocumentService {
         return convertTitleDtoFrom(outboxDocuments);
     }
 
-    public List<DocumentTitleResponse> findInboxDocuments(DocumentInboxRequest request) {
-        List<DocumentApproval> inboxDocumentApprovals = documentApprovalRepository.findByApproverIdAndApprovalState(request.getApproverId(), DRAFTING);
-
-        List<Document> inboxDocuments = inboxDocumentApprovals.stream()
-                .map(DocumentApproval::getDocument)
-                .collect(Collectors.toList());
-
+    public List<DocumentTitleResponse> findInboxDocuments(LoginUser loginUser) {
+        List<Document> inboxDocuments = documentApprovalRepository.findDocumentsOf(loginUser.getId(), DRAFTING);
         return convertTitleDtoFrom(inboxDocuments);
     }
 
@@ -60,12 +54,11 @@ public class DocumentService {
     @Transactional
     public void create(DocumentCreateRequest requestDto, LoginUser loginUser) {
         User drafter = findUserById(loginUser.getId());
-        Document document = requestDto.toEntity(drafter);
 
         List<Long> approverIds = requestDto.getApproverIds();
         List<User> approvers = userRepository.findAllById(approverIds);
-        document.addApprovers(approvers);
 
+        Document document = requestDto.toEntity(drafter, approvers);
         documentRepository.save(document);
     }
 

@@ -35,8 +35,8 @@ public class DocumentController {
     }
 
     @GetMapping("/api/documents/inbox")
-    public ResponseEntity<List<DocumentTitleResponse>> findInboxDocuments(DocumentInboxRequest requestDto) {
-        List<DocumentTitleResponse> inboxDocumentResponses = documentService.findInboxDocuments(requestDto);
+    public ResponseEntity<List<DocumentTitleResponse>> findInboxDocuments(@Login LoginUser loginUser) {
+        List<DocumentTitleResponse> inboxDocumentResponses = documentService.findInboxDocuments(loginUser);
         return ResponseEntity.ok(inboxDocumentResponses);
     }
 

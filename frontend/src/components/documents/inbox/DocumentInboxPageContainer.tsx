@@ -13,7 +13,7 @@ const DocumentInboxPageContainer = () => {
   });
 
   const fetchInboxDocuments = async () => {
-    const {data: inboxDocuments} = await request.get('/api/documents/outbox?drafterId=1')
+    const {data: inboxDocuments} = await request.get('/api/documents/inbox?drafterId=1')
     setInboxDocuments(inboxDocuments);
   }
 

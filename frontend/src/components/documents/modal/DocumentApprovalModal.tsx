@@ -315,13 +315,19 @@ const useStyles = makeStyles(theme => ({
   },
   approveButton: {
     margin: '5px',
-    backgroundColor: '#4799DE',
     color: 'white',
+    backgroundColor: '#4799DE',
+    '&:hover': {
+      backgroundColor: 'rgba(71,153,222,0.8)',
+    },
   },
   canceledButton: {
     margin: '5px',
-    backgroundColor: '#F0615D',
     color: 'white',
+    backgroundColor: '#F0615D',
+    '&:hover': {
+      backgroundColor: 'rgba(240,97,93,0.8)',
+    },
   },
 }));
 
