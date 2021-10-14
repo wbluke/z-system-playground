@@ -21,6 +21,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.util.List;
 
+import static playground.domain.document.ApprovalState.APPROVED;
+import static playground.domain.document.ApprovalState.CANCELED;
+import static playground.domain.document.ApprovalState.DRAFTING;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -51,21 +55,23 @@ public class Document extends BaseTimeEntity {
     private final DocumentApprovals documentApprovals = new DocumentApprovals();
 
     @Builder
-    private Document(String title, Category category, String contents, ApprovalState approvalState, User drafter, List<User> approvers) {
+    private Document(String title, Category category, String contents, User drafter, List<User> approvers) {
         this.title = title;
         this.category = category;
         this.contents = contents;
-        this.approvalState = approvalState;
         this.drafter = drafter;
 
         addApprovers(approvers);
+        this.approvalState = decideDocumentState();
     }
 
-    private void addApprovers(List<User> approvers) {
-        for (int index = 0; index < approvers.size(); index++) {
-            DocumentApproval documentApproval = createDocumentApproval(approvers.get(index), index + 1);
-            documentApprovals.add(documentApproval);
+    public void approveBy(User approver, String approvalComment) {
+        if (approvalState.isCompleted()) {
+            throw new IllegalArgumentException("이미 처리가 완료된 문서입니다.");
         }
+
+        documentApprovals.approveBy(approver, approvalComment);
+        this.approvalState = decideDocumentState();
     }
 
     public void addDocumentApproval(DocumentApproval documentApproval) {
@@ -76,6 +82,13 @@ public class Document extends BaseTimeEntity {
         return documentApprovals.getApprovals();
     }
 
+    private void addApprovers(List<User> approvers) {
+        for (int index = 0; index < approvers.size(); index++) {
+            DocumentApproval documentApproval = createDocumentApproval(approvers.get(index), index + 1);
+            documentApprovals.add(documentApproval);
+        }
+    }
+
     private DocumentApproval createDocumentApproval(User user, int approvalOrder) {
         DocumentApproval approval = DocumentApproval.builder()
                 .approver(user)
@@ -83,6 +96,18 @@ public class Document extends BaseTimeEntity {
                 .build();
         approval.updateDocument(this);
         return approval;
+    }
+
+    private ApprovalState decideDocumentState() {
+        if (documentApprovals.hasAllApproved()) {
+            return APPROVED;
+        }
+
+        if (documentApprovals.hasCanceled()) {
+            return CANCELED;
+        }
+
+        return DRAFTING;
     }
 
 }

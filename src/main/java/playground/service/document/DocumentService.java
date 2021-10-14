@@ -35,7 +35,7 @@ public class DocumentService {
     }
 
     public List<DocumentTitleResponse> findInboxDocuments(LoginUser loginUser) {
-        List<Document> inboxDocuments = documentApprovalRepository.findDocumentsOf(loginUser.getId(), DRAFTING);
+        List<Document> inboxDocuments = documentApprovalRepository.findOrderedDocumentsOf(loginUser.getId(), DRAFTING);
         return convertTitleDtoFrom(inboxDocuments);
     }
 

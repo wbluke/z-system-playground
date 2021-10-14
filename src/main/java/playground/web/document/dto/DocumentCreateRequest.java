@@ -43,7 +43,6 @@ public class DocumentCreateRequest {
                 .category(category)
                 .contents(contents)
                 .drafter(drafter)
-                .approvalState(DRAFTING)
                 .approvers(approvers)
                 .build();
     }

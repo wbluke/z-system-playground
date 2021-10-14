@@ -8,11 +8,25 @@ import lombok.RequiredArgsConstructor;
 public enum ApprovalState {
 
     DRAFTING("결재중"),
-    WAITING("결재 대기"),
     APPROVED("승인"),
-    CANCELED("거절"),
-    ;
+    CANCELED("거절");
 
     private final String text;
+
+    public boolean isDrafting() {
+        return this == DRAFTING;
+    }
+
+    public boolean isApproved() {
+        return this == APPROVED;
+    }
+
+    public boolean isCanceled() {
+        return this == CANCELED;
+    }
+
+    public boolean isCompleted() {
+        return isApproved() || isCanceled();
+    }
 
 }

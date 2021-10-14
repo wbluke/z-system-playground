@@ -2,6 +2,7 @@ package playground.domain.user;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import playground.domain.BaseTimeEntity;
@@ -19,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

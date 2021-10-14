@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import static playground.domain.document.ApprovalState.APPROVED;
 import static playground.domain.document.ApprovalState.DRAFTING;
 
 @Getter
@@ -59,6 +60,27 @@ public class DocumentApproval extends BaseTimeEntity {
     public void updateDocument(Document document) {
         this.document = document;
         document.addDocumentApproval(this);
+    }
+
+    public void approve(String approvalComment) {
+        this.approvalState = APPROVED;
+        this.approvalComment = approvalComment;
+    }
+
+    public boolean isSameApprover(User approver) {
+        return this.approver.equals(approver);
+    }
+
+    public boolean isProgressing() {
+        return this.approvalState.isDrafting();
+    }
+
+    public boolean isApproved() {
+        return this.approvalState.isApproved();
+    }
+
+    public boolean isCanceled() {
+        return this.approvalState.isCanceled();
     }
 
 }

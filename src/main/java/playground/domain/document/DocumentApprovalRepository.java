@@ -9,8 +9,8 @@ import java.util.List;
 public interface DocumentApprovalRepository extends JpaRepository<DocumentApproval, Long> {
 
     @Query("select d from DocumentApproval da inner join da.document d" +
-            " where da.approver.id = :approverId and da.approvalState = :approvalState")
-    List<Document> findDocumentsOf(
+            " where da.approver.id = :approverId and da.approvalState = :approvalState order by d.id desc ")
+    List<Document> findOrderedDocumentsOf(
             @Param("approverId") Long approverId,
             @Param("approvalState") ApprovalState approvalState
     );
