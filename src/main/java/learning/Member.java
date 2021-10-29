@@ -25,4 +25,9 @@ public class Member {
         this.age = age;
     }
 
+    public void update(String name, Integer age) {
+        this.userName = name;
+        this.age = age;
+    }
+
 }
